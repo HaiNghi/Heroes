@@ -1,0 +1,102 @@
+PODS:
+  - GoogleMaps (2.5.0):
+    - GoogleMaps/Maps (= 2.5.0)
+  - GoogleMaps/Base (2.5.0)
+  - GoogleMaps/Maps (2.5.0):
+    - GoogleMaps/Base
+  - GooglePlacePicker (2.5.0):
+    - GoogleMaps (= 2.5.0)
+    - GooglePlaces (= 2.5.0)
+  - GooglePlaces (2.5.0):
+    - GoogleMaps/Base (= 2.5.0)
+  - React (0.53.3):
+    - React/Core (= 0.53.3)
+  - react-native-google-maps (0.20.1):
+    - GoogleMaps (= 2.5.0)
+    - React
+  - react-native-maps (0.20.1):
+    - React
+  - React/BatchedBridge (0.53.3):
+    - React/Core
+    - React/cxxreact_legacy
+  - React/Core (0.53.3):
+    - yoga (= 0.53.3.React)
+  - React/cxxreact_legacy (0.53.3):
+    - React/jschelpers_legacy
+    - React/jsinspector_legacy
+  - React/DevSupport (0.53.3):
+    - React/Core
+    - React/RCTWebSocket
+  - React/fishhook (0.53.3)
+  - React/jschelpers_legacy (0.53.3)
+  - React/jsinspector_legacy (0.53.3)
+  - React/RCTActionSheet (0.53.3):
+    - React/Core
+  - React/RCTAnimation (0.53.3):
+    - React/Core
+  - React/RCTBlob (0.53.3):
+    - React/Core
+  - React/RCTGeolocation (0.53.3):
+    - React/Core
+  - React/RCTImage (0.53.3):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTLinkingIOS (0.53.3):
+    - React/Core
+  - React/RCTNetwork (0.53.3):
+    - React/Core
+  - React/RCTSettings (0.53.3):
+    - React/Core
+  - React/RCTText (0.53.3):
+    - React/Core
+  - React/RCTVibration (0.53.3):
+    - React/Core
+  - React/RCTWebSocket (0.53.3):
+    - React/Core
+    - React/fishhook
+    - React/RCTBlob
+  - yoga (0.53.3.React)
+
+DEPENDENCIES:
+  - GoogleMaps
+  - GooglePlacePicker
+  - GooglePlaces
+  - react-native-google-maps (from `../node_modules/react-native-maps/`)
+  - react-native-maps (from `../node_modules/react-native-maps/`)
+  - React/BatchedBridge (from `../node_modules/react-native`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/DevSupport (from `../node_modules/react-native`)
+  - React/RCTActionSheet (from `../node_modules/react-native`)
+  - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/RCTGeolocation (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTLinkingIOS (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTSettings (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTVibration (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+EXTERNAL SOURCES:
+  React:
+    :path: ../node_modules/react-native
+  react-native-google-maps:
+    :path: ../node_modules/react-native-maps/
+  react-native-maps:
+    :path: ../node_modules/react-native-maps/
+  yoga:
+    :path: ../node_modules/react-native/ReactCommon/yoga
+
+SPEC CHECKSUMS:
+  GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
+  GooglePlacePicker: 1573e644ab54564d95c2643edc0f29091609e966
+  GooglePlaces: dd70d9d71ea1c7944846afe67de3712c99b30a77
+  React: af66244a7d630be2aef03b4ddfe3570e4eff39fc
+  react-native-google-maps: 963fc78a5ac32dad3a726e4fa08b5307faa5cab2
+  react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
+  yoga: 55da126afc384965b96bff46652464373b330add
+
+PODFILE CHECKSUM: c71f8aab875eca31b5b5883cae7333a2f8f815f0
+
+COCOAPODS: 1.4.0
