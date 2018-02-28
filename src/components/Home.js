@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Container } from 'native-base';
+import { Container, Image } from 'native-base';
 import MapContainer from './MapContainer';
 import { HeaderForHome } from './common';
 
 class Home extends Component {
+    
     componentDidMount() {
         this.props.getCurrentLocation();
-    }
+    } 
 
     render() {
         // const region = {
