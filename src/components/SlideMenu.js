@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, Image, TouchableOpacity } from 'react-native';
 import { Container, Header, Body, Content } from 'native-base';
 import styles from './styles';
+import route from '../routes/route';
+import { NavigationActions } from 'react-navigation';
 
 class SlideMenu extends Component {
+    navigateToScreen = (route) => () => {
+        this.props.navigation.navigate(route);
+    }
+
     render() {
         return (
             <Container>
@@ -31,12 +37,12 @@ class SlideMenu extends Component {
                         />
                         <Text style={styles.drawerItemText}>History</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.drawerItemStyle}>
+                    <TouchableOpacity style={styles.drawerItemStyle}  onPress = { this.navigateToScreen('UserNotification') }>
                         <Image 
                             source={require('./image/notification.png')}
                             style={styles.imageIconStyle}
                         />
-                        <Text style={styles.drawerItemText}>Notification</Text>
+                        <Text style={styles.drawerItemText} >Notification</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.drawerItemStyle}>
                         <Image 

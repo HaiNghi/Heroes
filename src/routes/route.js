@@ -5,14 +5,18 @@ import SlideMenu from '../components/SlideMenu';
 // import Login from '../containers/Login';
 import Home from '../containers/Home';
 import PackageRegister from '../containers/PackageRegister';
+import UserNotification from '../containers/UserNotification';
 
 const MainNavigator = DrawerNavigator({
     Home: { 
         screen: Home
-    },   
+    },
+    UserNotification: {
+        screen: UserNotification
+    }   
 }, 
 {
-    contentComponent: props => <SlideMenu prop={props} />,
+    contentComponent: SlideMenu,
     headerMode: 'none'    
 });
 
