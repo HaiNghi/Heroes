@@ -5,14 +5,14 @@ import SlideMenu from '../components/SlideMenu';
 // import Login from '../containers/Login';
 import Home from '../containers/Home';
 import PackageRegister from '../containers/PackageRegister';
-import UserNotification from '../containers/UserNotification';
+import UserNotificationContainer from '../containers/UserNotificationContainer';
 
 const MainNavigator = DrawerNavigator({
     Home: { 
         screen: Home
     },
     UserNotification: {
-        screen: UserNotification
+        screen: UserNotificationContainer
     }   
 }, 
 {
