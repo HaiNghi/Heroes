@@ -8,7 +8,16 @@ const UserNotificationStyles = StyleSheet.create({
     notificationItem: {
         flex: 1,
         flexDirection: 'row',
-        height: 80
+        height: 80,
+        marginRight: 10
+    },
+    notificationItemTextContent: {
+        flex: 4/5,
+        flexDirection: 'column'
+    },
+    notificationItemTextContentTop: {
+        marginVertical: 3,
+        flexDirection: 'row',
     },
     notificationItemTitle: {
         fontSize: 16,
@@ -16,32 +25,32 @@ const UserNotificationStyles = StyleSheet.create({
         flex: 3/5
     },
     notificationItemTime: {
-        fontSize: 13,
         flex: 2/5,
+        fontSize: 13,
         alignSelf: 'center',
+        textAlign: 'right',
     },
-    notificationItemMessage: {
-        marginBottom: 10,
-        marginHorizontal: 8,
-        fontSize: 14,
-    },
-    notificationItemTextContentTop: {
-        marginVertical: 3,
-        marginHorizontal: 8,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    notificationItemTextContent: {
-        flex: 4/5,
-        flexDirection: 'column'
+    notificationItemNavigateArrowIcon: {
+        flex: 0,
+        width: 10,
+        height: 10,
+        resizeMode : 'contain',
+        alignSelf: 'center',
+        marginRight: 10,
+        
     },
     notificationItemIconContent: {
         flex: 1/5,
-        width: 50,
-        height: 50,
+        width: '70%',
+        height: '70%',
         resizeMode : 'contain',
         alignSelf: 'center'
-    }
+    },
+    notificationItemMessage: {
+        marginBottom: 10,
+        fontSize: 14,
+    },
+    
 })
 
 export { UserNotificationStyles };

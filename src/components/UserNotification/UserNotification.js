@@ -18,7 +18,6 @@ export default class UserNotification extends Component {
                         data = {NotificationData}
                         renderItem = {({item}) => 
                             <View>
-                                {console.log(getDeliveringStatusImageResourceURLByType(item.type))}
                                 <View style = {UserNotificationStyles.notificationItem}>
                                     <Image source={getDeliveringStatusImageResourceURLByType(item.type)}
                                     style = {UserNotificationStyles.notificationItemIconContent} />
@@ -30,6 +29,8 @@ export default class UserNotification extends Component {
                                             <Text style={UserNotificationStyles.notificationItemTime}>
                                                 {item.time}
                                             </Text>
+                                            <Image source={require('../../images/arrows/right-arrow.png')}
+                                                style = {UserNotificationStyles.notificationItemNavigateArrowIcon} />
                                         </View>
                                         <Text style={UserNotificationStyles.notificationItemMessage}>
                                             {item.message}
