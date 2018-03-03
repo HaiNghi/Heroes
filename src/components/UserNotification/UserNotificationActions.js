@@ -9,7 +9,7 @@ export const getTitleColorByType = (type) => {
             titleColor = '#b56969';
             break;
         case 'Delivering':
-            titleColor = '#1d2120';
+            titleColor = '#6ed3cf';
             break;
     }
 
@@ -23,13 +23,13 @@ export const getDeliveringStatusImageResourceURLByType = (type) => {
     switch(type)
     {
         case 'Delivered':
-            imageResource = require('../../images/deliveryStatusIcons/delivering.png');
+            imageResource = require('../../images/deliveryStatusIcons/delivered.png');
             break;
         case 'Rejected':
             imageResource = require('../../images/deliveryStatusIcons/rejected.png');
             break;
         case 'Delivering':
-            imageResource = require('../../images/deliveryStatusIcons/delivered.png');
+            imageResource = require('../../images/deliveryStatusIcons/delivering.png');
             break;
     }
     return imageResource;

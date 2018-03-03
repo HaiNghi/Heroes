@@ -23,14 +23,18 @@ export default class UserNotification extends Component {
                                     <Image source={getDeliveringStatusImageResourceURLByType(item.type)}
                                     style = {UserNotificationStyles.notificationItemIconContent} />
                                     <View style={UserNotificationStyles.notificationItemTextContent}>
-                                        <Text style={[UserNotificationStyles.notificationItemTitle, getTitleColorByType(item.type)]}>
-                                            {item.title}
-                                        </Text>
+                                        <View style={UserNotificationStyles.notificationItemTextContentTop}>
+                                            <Text style={[UserNotificationStyles.notificationItemTitle, getTitleColorByType(item.type)]}>
+                                                {item.title}
+                                            </Text>
+                                            <Text style={UserNotificationStyles.notificationItemTime}>
+                                                {item.time}
+                                            </Text>
+                                        </View>
                                         <Text style={UserNotificationStyles.notificationItemMessage}>
                                             {item.message}
                                         </Text>
                                     </View>
-
                                 </View>
                                 <SeparatingLine lineWidth={1} lineColor = {'black'}/>
                             </View>
