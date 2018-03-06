@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { View, Left, Icon, List, ListItem, Body } from 'native-base';
 import styles from './SearchResultStyle';
 
-export const SearchResult = ({ predictions, getSelectedAddress }) => {
+ const SearchResult = ({ predictions, getSelectedAddress }) => {
     function handleGetSelectedAddress(placeID) {
         getSelectedAddress(placeID);
     }

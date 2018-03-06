@@ -1,41 +1,45 @@
-const styles = {
-    pickerTextStyle: {
-        fontSize: 16, 
-        paddingLeft: 10, 
-        color: '#ff5e3a', 
-        fontWeight: 'bold'
+import { StyleSheet } from 'react-native';
+
+export const LoginFormStyle = StyleSheet.create({
+    headerStyle: { 
+        backgroundColor: '#ff5e3a', 
+        opacity: 0.75, 
+        flex: 1
+    },
+    innerStyle: { 
+        flexDirection: 'row', 
+        marginTop: 30, 
+        justifyContent: 'center' 
+    },
+    headerTextStyle: { 
+        fontSize: 30, 
+        fontWeight: 'bold', 
+        color: '#fff' 
+    },
+    secondBodyStyle: { 
+        margin: 30, 
+        justifyContent: 'center' 
     },
     textStyle: {
-        fontSize: 16,
         textAlign: 'center',
-        justifyContent: 'center',
-        lineHeight: 30,
-        color: 'black',
         fontWeight: 'bold',
-        marginBottom: 15,
-        marginTop: 15
+        fontSize: 20
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#D8D8D8',
-        alignItems: 'center',
-        opacity: 0.8
-      },
-    innerContainer: {
-        alignItems: 'center',
-        height: 200,
-        backgroundColor: '#fff',
-        opacity: 1
-        
+    inputBackGroundStyle: {
+        backgroundColor: '#fff' 
     },
-    HeaderMenuStyle: {
-        marginTop: 30,
-        height: 200,
-        backgroundColor: '#ff5e3a',
-        alignItems: 'center'
-        
+    secondInputStyle: { 
+        marginLeft: 20, 
+        marginRight: 20, 
+        marginBottom: 20 
     },
+    buttonStyle: {
+        margin: 20, 
+        backgroundColor: '#006600' 
+    }
+});
+
+export const SlideMenuStyle = StyleSheet.create({
     imageIconStyle: {
         height: 25, 
         width: 25, 
@@ -48,15 +52,71 @@ const styles = {
         flex: 1,  
         paddingTop: 10, 
         paddingLeft: 10, 
-        paddingRight: 10
+        paddingRight: 10,
+        marginTop: 10
     },
     drawerItemText: {
         marginLeft: 10, 
-        flex: 2, 
+        flex: 1, 
         alignItems: 'center',  
         padding: 7, 
         alignSelf: 'center',
-        fontSize: 15
+        fontSize: 15,
+    },
+});
+
+export const RegisterStyle = StyleSheet.create({
+    textStyle: {
+        textAlign: 'center',
+        color: '#fff',
+        fontSize: 12,
+        fontStyle: 'italic'
+    },
+});
+
+export const styles = StyleSheet.create({
+    containerStyle: {
+        backgroundColor: '#E9E9E9' 
+    },
+    pickerTextStyle: {
+        fontSize: 16, 
+        paddingLeft: 10, 
+        color: '#ff5e3a', 
+        fontWeight: 'bold'
+    },
+    textStyle: {
+        fontSize: 17,
+        textAlign: 'center',
+        justifyContent: 'center',
+        lineHeight: 30,
+        color: 'black',
+        fontWeight: 'bold',
+        marginBottom: 15,
+        marginTop: 15
+    },
+    //Modal
+    innerContainer: {
+        alignItems: 'center',
+        height: 205,
+        backgroundColor: '#fff',
+        opacity: 1
+        
+    },
+    imageStyle: {
+        width: 50, 
+        height: 50, 
+        marginTop: 15
     }
-};
-export default styles;
+});
+export const PackageRegisterStyle = StyleSheet.create({
+    inputWrapper: {
+        marginLeft: 15,
+        marginRight: 15,
+        marginTop: 5,
+        marginBottom: 0,
+        backgroundColor: '#fff',
+        opacity: 0.9,
+        borderRadius: 7
+    },
+});
+    

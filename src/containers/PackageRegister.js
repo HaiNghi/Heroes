@@ -1,22 +1,34 @@
 import { connect } from 'react-redux';
 
 import PackageRegister from '../components/PackageRegister';
-import {} from '../actions';
+import { doBookPackage } from '../api/api';
+import {
+    getDistanceMatrix,
+    getCustomerName,
+    getCustomerPhone,
+    bookPackage
+} from '../actions';
 
-// function mapStateToProps(state) {
-//     return {
-//         region: state.map.region,
-//         inputData: state.map.inputData || {},
-//         resultTypes: state.map.resultTypes || {},
-//         predictions: state.map.predictions || [],
-//         pickUp: state.map.pickUp,
-//         dropOff: state.map.dropOff,
-//         pickUpRegion: state.map.pickUpRegion || {},
-//         nextRegion: state.map.nextRegion || {},
-//         currentLocation: state.map.currentLocation,
-//         arrayMarker: state.map.arrayMarker,
-//         deleted: state.map.deleted
-//     };
-// }
+const mapStateToProps = (state) => ({
+    distanceMatrix: state.package.distanceMatrix,
+    customerName: state.package.customerName,
+    customerPhone: state.package.customerPhone
+});
 
-export default connect()(PackageRegister);
+const mapDispatchToProps = (dispatch) => ({
+    getDistanceMatrix: (region, nextRegion) => {
+        dispatch(getDistanceMatrix(region, nextRegion));
+    },
+    getCustomerName: (text) => {
+       dispatch(getCustomerName(text));
+    },
+    getCustomerPhone: (text) => {
+    dispatch(getCustomerPhone(text));
+    },
+    bookPackage: (customerName, customerPhone, pickUpCoordinate, destinationCoordinate, distance) => {
+        doBookPackage(dispatch, bookPackage, customerName, customerPhone, pickUpCoordinate, destinationCoordinate, distance);
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PackageRegister);
+

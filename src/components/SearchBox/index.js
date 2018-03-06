@@ -3,7 +3,7 @@ import { Text, Keyboard } from 'react-native';
 import { View, InputGroup, Input, Icon, Button } from 'native-base';
 import styles from './SearchBoxStyles';
 
-export const SearchBox = ({ 
+ const SearchBox = ({ 
                             // getInputData, 
                             toogleSearchResult, 
                             getAddressPredictions, 

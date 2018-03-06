@@ -46,6 +46,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		96C078B5598843B78577545D /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DA6779EA365B4B3595FD3659 /* FontAwesome.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		BC790F1B2047BA7100065A0F /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC790F1A2047BA5C00065A0F /* libSplashScreen.a */; };
 		BCCEF96320439E670049EF0E /* AirGoogleMaps in Resources */ = {isa = PBXBuildFile; fileRef = BCCEF92D20439E670049EF0E /* AirGoogleMaps */; };
 		BCCEF9D72043A37E0049EF0E /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCEF9BA2043A3560049EF0E /* libRCTPushNotification.a */; };
 		C3EE88935A394222A1DAE071 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58CC5485A422483CB9AEB875 /* SimpleLineIcons.ttf */; };
@@ -272,6 +273,13 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		BC790F192047BA5C00065A0F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC790EED2047BA5C00065A0F /* SplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D7682761D8E76B80014119E;
+			remoteInfo = SplashScreen;
+		};
 		BCCEF95320439E670049EF0E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -389,6 +397,7 @@
 		93BAEC4E74A84675813DA769 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B3F90A417EC34DDB811A33C8 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		BC790EED2047BA5C00065A0F /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		BCCEF92D20439E670049EF0E /* AirGoogleMaps */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AirGoogleMaps; path = "../node_modules/react-native-maps/lib/ios/AirGoogleMaps"; sourceTree = "<group>"; };
 		BCCEF9A82043A3560049EF0E /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		CD26722D8B5B451A8523E767 /* libRNGooglePlaces.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGooglePlaces.a; sourceTree = "<group>"; };
@@ -411,6 +420,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC790F1B2047BA7100065A0F /* libSplashScreen.a in Frameworks */,
 				BCCEF9D72043A37E0049EF0E /* libRCTPushNotification.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -610,6 +620,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				BC790EED2047BA5C00065A0F /* SplashScreen.xcodeproj */,
 				BCCEF9A82043A3560049EF0E /* RCTPushNotification.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -691,6 +702,14 @@
 				F249CC07C48941289003AAFB /* Zocial.ttf */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		BC790EEE2047BA5C00065A0F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC790F1A2047BA5C00065A0F /* libSplashScreen.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		BCCEF9702043A1180049EF0E /* Recovered References */ = {
@@ -890,6 +909,10 @@
 				{
 					ProductGroup = BCCEF9962043A11B0049EF0E /* Products */;
 					ProjectRef = E79FBE1E711B41AA86B51BCB /* RNGooglePlaces.xcodeproj */;
+				},
+				{
+					ProductGroup = BC790EEE2047BA5C00065A0F /* Products */;
+					ProjectRef = BC790EED2047BA5C00065A0F /* SplashScreen.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1104,6 +1127,13 @@
 			fileType = archive.ar;
 			path = libRCTBlob.a;
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC790F1A2047BA5C00065A0F /* libSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSplashScreen.a;
+			remoteRef = BC790F192047BA5C00065A0F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		BCCEF95420439E670049EF0E /* libjsinspector.a */ = {
@@ -1651,6 +1681,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/AirMaps/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1690,6 +1721,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/AirMaps/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

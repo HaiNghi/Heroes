@@ -7,7 +7,8 @@ import {
     GET_SELECTED_ADDRESS,
     GET_PICK_UP,
     GET_DROP_OFF,
-    DELETE_RESULT_ADDRESS
+    DELETE_RESULT_ADDRESS,
+    GET_DISTANCE_MATRIX
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -23,7 +24,8 @@ const INITIAL_STATE = {
     pickUpRegion: {},
     currentLocation: { pickUp: false, dropOff: false },
     arrayMarker: [],
-    deleted: false
+    deleted: false,
+    distanceMatrix: ''
 };
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATION = width / height;
@@ -33,17 +35,29 @@ const LONGTITUDEDELTA = ASPECT_RATION * LATITUDEDELTA;
 
 export default (state = INITIAL_STATE, action) => {
     console.log(action);
+    console.log(state.pickUpRegion);
     switch (action.type) {
-        case GET_CURRENT_LOCATION:
+        case GET_CURRENT_LOCATION: {
+            const LATITUDE = action.payload.coords.latitude;
+            const LONGTITUDE = action.payload.coords.longitude;
             return { ...state, 
-                    region: {
-                        latitude: action.payload.coords.latitude,
-                        longitude: action.payload.coords.longitude,
+                region: {
+                        latitude: LATITUDE,
+                        longitude: LONGTITUDE,
                         latitudeDelta: LATITUDEDELTA,
                         longitudeDelta: LONGTITUDEDELTA
-                        },
-                    // arrayMarker:[...state.arrayMarker,region]
-             };
+                },
+                
+                pickUpRegion: {
+                    latitude: LATITUDE,
+                    longitude: LONGTITUDE,
+                    latitudeDelta: LATITUDEDELTA,
+                    longitudeDelta: LONGTITUDEDELTA
+                }
+                // arrayMarker:[...state.arrayMarker,region]
+                };
+            }
+           
         case GET_INPUT:
             return { ...state, 
                     inputData: { [action.payload.key]: action.payload.value
@@ -51,11 +65,12 @@ export default (state = INITIAL_STATE, action) => {
             };
         case GET_PICK_UP:
             return { ...state, 
-                    pickUp: action.payload
+                    pickUp: action.payload,
+                    region: state.pickUpRegion
             };
         case GET_DROP_OFF:
             return { ...state, 
-                    dropOff: action.payload
+                    dropOff: action.payload,
             };
         case TOOGLE_SEARCH_RESULT: {
             if (action.payload === 'pickUp') {
@@ -75,7 +90,6 @@ export default (state = INITIAL_STATE, action) => {
             };
         case GET_SELECTED_ADDRESS: {
             console.log(state.resultTypes.pickUp);
-            console.log(action.payload);
             if (state.resultTypes.pickUp) {
                 return { ...state,
                         resultTypes: { pickUp: false, dropOff: false }, 
@@ -107,6 +121,7 @@ export default (state = INITIAL_STATE, action) => {
             }
         }
         case DELETE_RESULT_ADDRESS: {
+            console.log(state.pickUpRegion);
             if (action.payload === 'pickUp') {
                 return { ...state, 
                         pickUp: '',
@@ -123,6 +138,7 @@ export default (state = INITIAL_STATE, action) => {
                 };
             }
         }
+        
         default:
             return state;
     }

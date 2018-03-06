@@ -6,4 +6,7 @@ export const GET_SELECTED_ADDRESS = 'get_selected_address';
 export const GET_PICK_UP = 'get_pick_up';
 export const GET_DROP_OFF = 'get_drop_off';
 export const DELETE_RESULT_ADDRESS = 'delete_result_address';
-
+export const GET_CUSTOMER_NAME = 'get_customer_name';
+export const GET_CUSTOMER_PHONE = 'get_customer_phone';
+export const BOOK_PACKAGE = 'book_package';
+export const GET_DISTANCE_MATRIX = 'get_distance_matrix';

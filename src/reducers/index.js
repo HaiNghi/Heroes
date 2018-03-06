@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'; 
-import Reducer from './Reducer';
+import MapReducer from './MapReducer';
+import HandleDataReducer from './HandleDataReducer';
 
 export default combineReducers({
-    map: Reducer
+    map: MapReducer,
+    package: HandleDataReducer
 });
