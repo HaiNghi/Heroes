@@ -1,18 +1,28 @@
 import { connect } from 'react-redux';
 
 import PackageRegister from '../components/PackageRegister';
-import { doBookPackage } from '../api/api';
+import { doBookPackage, doGetPrice, doGetNormalPackage, doGetOptionalPackage } from '../api/api';
 import {
     getDistanceMatrix,
     getCustomerName,
     getCustomerPhone,
-    bookPackage
+    bookPackage,
+    getPrice,
+    disablePrice,
+    getNormalPackage,
+    getOptionalPackage
 } from '../actions';
 
 const mapStateToProps = (state) => ({
     distanceMatrix: state.package.distanceMatrix,
+    duration: state.package.duration,
     customerName: state.package.customerName,
-    customerPhone: state.package.customerPhone
+    customerPhone: state.package.customerPhone,
+    success: state.package.success,
+    showPrice: state.package.showPrice,
+    price: state.package.price,
+    normalPackageList: state.package.normalPackageList,
+    optionalPackageList: state.package.optionalPackageList
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -23,11 +33,33 @@ const mapDispatchToProps = (dispatch) => ({
        dispatch(getCustomerName(text));
     },
     getCustomerPhone: (text) => {
-    dispatch(getCustomerPhone(text));
+        dispatch(getCustomerPhone(text));
     },
-    bookPackage: (customerName, customerPhone, pickUpCoordinate, destinationCoordinate, distance) => {
-        doBookPackage(dispatch, bookPackage, customerName, customerPhone, pickUpCoordinate, destinationCoordinate, distance);
+    getPrice: (height, width, weight, length, distanceMatrix, duration, checkTypeOfPackage) => {
+        doGetPrice(dispatch, getPrice, height, width, weight, length, distanceMatrix, duration, checkTypeOfPackage);
+    },
+    bookPackage: (weight, customerName, customerPhone, 
+                    pickUpCoordinate, destinationCoordinate,
+                    distanceMatrix, duration,
+                    height, width, length, price, checkTypeOfPackage) => {
+        doBookPackage(dispatch, bookPackage, weight, customerName, customerPhone, 
+                        pickUpCoordinate, destinationCoordinate,
+                        distanceMatrix, duration,
+                        height, width, length, price, checkTypeOfPackage);
+    },
+    onDecline: () => {
+        dispatch(bookPackage());
+    },
+    disablePrice: () => {
+        dispatch(disablePrice());
+    },
+    getNormalPackage: () => {
+        doGetNormalPackage(dispatch, getNormalPackage);
+    },
+    getOptionalPackage: () => {
+        doGetOptionalPackage(dispatch, getOptionalPackage);
     }
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PackageRegister);

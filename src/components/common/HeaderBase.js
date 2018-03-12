@@ -9,6 +9,7 @@ const HeaderBase = ({ headerText, navigation, left, right, onPress, previousPage
         const back = (previousPage == null);
         if (back) goBack(null); 
         else {
+            console.log(previousPage);
             navigation.navigate(previousPage);
         }
     }

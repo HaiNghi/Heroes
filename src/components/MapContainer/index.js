@@ -58,6 +58,7 @@ class MapContainer extends Component {
                 nextRegion,
                 deleteResultAddress,
                 } = this.props;
+                console.log(region);
             return (
                 <View style={styles.container}>
                     <MapView
@@ -69,8 +70,8 @@ class MapContainer extends Component {
                          region={{
                             latitude: this.getState(nextRegion.latitude, region.latitude),
                             longitude: this.getState(nextRegion.longitude, region.longitude),
-                            latitudeDelta: (nextRegion.latitudeDelta == null) ? 0.04 : 0.092,
-                            longitudeDelta: (nextRegion.longitudeDelta == null) ? region.longitudeDelta : 0.04
+                            latitudeDelta: (nextRegion.latitudeDelta === null) ? 0.04 : 0.092,
+                            longitudeDelta: (nextRegion.longitudeDelta === null) ? region.longitudeDelta : 0.04
                         }} 
                         showsUserLocation={true}
                     >
@@ -79,7 +80,7 @@ class MapContainer extends Component {
                         pinColor='red' 
                     />
                     {
-                        (nextRegion.latitude != null) &&
+                        (nextRegion.latitude !== null) &&
                             <MapView.Marker 
                             coordinate={nextRegion}
                             pinColor='green'

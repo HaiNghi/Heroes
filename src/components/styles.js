@@ -78,12 +78,7 @@ export const styles = StyleSheet.create({
     containerStyle: {
         backgroundColor: '#E9E9E9' 
     },
-    pickerTextStyle: {
-        fontSize: 16, 
-        paddingLeft: 10, 
-        color: '#ff5e3a', 
-        fontWeight: 'bold'
-    },
+    
     textStyle: {
         fontSize: 17,
         textAlign: 'center',
@@ -117,6 +112,38 @@ export const PackageRegisterStyle = StyleSheet.create({
         backgroundColor: '#fff',
         opacity: 0.9,
         borderRadius: 7
+    },
+    priceWrapper: {
+        bottom: 1, 
+        position: 'absolute', 
+        alignItems: 'center', 
+        flexDirection: 'row', 
+        flex: 1, 
+        margin: 10,
+        backgroundColor: '#ff5e3a', 
+        borderRadius: 7, 
+        shadowOpacity: 0.7, 
+        shadowRadius: 7, 
+        padding: 5
+    },
+    buttonWrapper: { 
+        bottom: 1, 
+        flex: 1, 
+        alignItems: 'center', 
+        position: 'relative', 
+        marginTop: 30 
+    },
+    label: {
+        fontSize: 18, 
+        padding: 10, 
+        color: '#ff5e3a', 
+        fontWeight: 'bold'
+    },
+    pickerText: {
+        fontSize: 16, 
+        paddingLeft: 10, 
+        fontWeight: 'bold',
+        marginTop: 12,
     },
 });
     

@@ -12,7 +12,11 @@ import {
     GET_CUSTOMER_NAME,
     GET_CUSTOMER_PHONE,
     BOOK_PACKAGE,
-    GET_DISTANCE_MATRIX
+    GET_DISTANCE_MATRIX,
+    GET_PRICE,
+    DISABLE_PRICE,
+    GET_NORMAL_PACKAGE,
+    GET_OPTIONAL_PACKAGE
 } from './types';
 
 export const getCurrentLocation = () => {
@@ -114,10 +118,16 @@ export const getCustomerPhone = (text) => {
         payload: text
     };
 };
-export const bookPackage = (text) => {
+export const bookPackage = () => {
     return {
-        type: BOOK_PACKAGE,
-        payload: text
+        type: BOOK_PACKAGE
+    };
+};
+
+export const getPrice = (price) => {
+    return {
+        type: GET_PRICE,
+        payload: price
     };
 };
 
@@ -131,24 +141,31 @@ export const getDistanceMatrix = (region, nextRegion) => {
                 key: 'AIzaSyBSw2SzeTbROHDQHohGL-5_tfKE52EoZUc'
             }
           })
-          .then(function (response) {
+          .then((response) => {
             dispatch({
                 type: GET_DISTANCE_MATRIX,
                 payload: response.data
             });
           });
-        // request.get('http://maps.googleapis.com/maps/api/distancematrix/json')
-        // .query({
-        //     origins: region.latitude + ',' + region.longitude,
-        //     destinations: nextRegion.latitude + ',' + nextRegion.longitude,
-        //     mode: 'driving',
-        //     key: 'AIzaSyBSw2SzeTbROHDQHohGL-5_tfKE52EoZUc'
-        // })
-        // .finish((error, res) => {
-        //     dispatch({
-        //         type: GET_DISTANCE_MATRIX,
-        //         payload: res.body
-        //     });
-        // });
+    };
+};
+
+export const disablePrice = () => {
+    return {
+        type: DISABLE_PRICE
+    };
+};
+
+export const getNormalPackage = (list) => {
+    return {
+        type: GET_NORMAL_PACKAGE,
+        payload: list
+    };
+};
+
+export const getOptionalPackage = (list) => {
+    return {
+        type: GET_OPTIONAL_PACKAGE,
+        payload: list
     };
 };

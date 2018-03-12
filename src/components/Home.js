@@ -7,15 +7,10 @@ class Home extends Component {
     
     componentDidMount() {
         this.props.getCurrentLocation();
+        console.log("OK");
     } 
 
     render() {
-        // const region = {
-        //     latitude: 16.052917401252717,
-        //     longitude: 108.23642190935992,
-        //     latitudeDelta: 0.0922,
-        //     longitudeDelta: 0.0421
-        // }
         return (
             <Container>
                 

@@ -7,8 +7,7 @@ import {
     GET_SELECTED_ADDRESS,
     GET_PICK_UP,
     GET_DROP_OFF,
-    DELETE_RESULT_ADDRESS,
-    GET_DISTANCE_MATRIX
+    DELETE_RESULT_ADDRESS
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -29,13 +28,11 @@ const INITIAL_STATE = {
 };
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATION = width / height;
-const LATITUDEDELTA = 0.0922;
+const LATITUDEDELTA = 0.02;
 const LONGTITUDEDELTA = ASPECT_RATION * LATITUDEDELTA;
 
 
 export default (state = INITIAL_STATE, action) => {
-    console.log(action);
-    console.log(state.pickUpRegion);
     switch (action.type) {
         case GET_CURRENT_LOCATION: {
             const LATITUDE = action.payload.coords.latitude;
@@ -47,12 +44,19 @@ export default (state = INITIAL_STATE, action) => {
                         latitudeDelta: LATITUDEDELTA,
                         longitudeDelta: LONGTITUDEDELTA
                 },
-                
                 pickUpRegion: {
                     latitude: LATITUDE,
                     longitude: LONGTITUDE,
                     latitudeDelta: LATITUDEDELTA,
                     longitudeDelta: LONGTITUDEDELTA
+                },
+                pickUp: '',
+                dropOff: '',
+                nextRegion: {
+                    latitude: null,
+                    longitude: null,
+                    latitudeDelta: null,
+                    longitudeDelta: null
                 }
                 // arrayMarker:[...state.arrayMarker,region]
                 };
@@ -134,7 +138,12 @@ export default (state = INITIAL_STATE, action) => {
                     dropOff: '',
                     resultTypes: { pickUp: false, dropOff: false }, 
                     deleted: true,
-                    nextRegion: {}
+                    nextRegion: {
+                        latitude: null,
+                        longitude: null,
+                        latitudeDelta: null,
+                        longitudeDelta: null
+                    }
                 };
             }
         }

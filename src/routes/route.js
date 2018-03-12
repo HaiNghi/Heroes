@@ -36,7 +36,10 @@ const MainNavigator = DrawerNavigator({
 }, 
 {
     contentComponent: props => <SlideMenu {...props} />,
-    headerMode: 'none'    
+    headerMode: 'none',
+    drawerOpenRoute: 'DrawerOpen',
+    drawerCloseRoute: 'DrawerClose',
+    drawerToggleRoute: 'DrawerToggle'     
 });
 
 const AppNavigator = StackNavigator({
@@ -51,15 +54,16 @@ const AppNavigator = StackNavigator({
     },
     Register: { 
         screen: Register 
-    }
+    },
+  
 }, 
 {
     initialRouterName: 'Login',
     headerMode: 'none', 
-    drawerPosition: 'Left',
     drawerOpenRoute: 'DrawerOpen',
     drawerCloseRoute: 'DrawerClose',
-    drawerToggleRoute: 'DrawerToggle'  
+    drawerToggleRoute: 'DrawerToggle' 
+    
 });
 
 export default () => 

@@ -10,7 +10,7 @@ class Histories extends Component {
     render() {
         return (
             <Container>
-                <HeaderBase headerText='History' navigation={this.props.navigation} navigator={this.props.navigator} />
+                <HeaderBase headerText='History' navigation={this.props.navigation} />
                 <Content>
                     <List>
                         <ListItem onPress={() => this.onChangePage()}>
@@ -21,7 +21,6 @@ class Histories extends Component {
                         </ListItem>
                     </List>
                 </Content>
-               
             </Container>
         );
     }

@@ -10,3 +10,7 @@ export const GET_CUSTOMER_NAME = 'get_customer_name';
 export const GET_CUSTOMER_PHONE = 'get_customer_phone';
 export const BOOK_PACKAGE = 'book_package';
 export const GET_DISTANCE_MATRIX = 'get_distance_matrix';
+export const GET_PRICE = 'get_price';
+export const DISABLE_PRICE = 'disable_price';
+export const GET_NORMAL_PACKAGE = 'get_normal_package';
+export const GET_OPTIONAL_PACKAGE = 'get_optional_package';

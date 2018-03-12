@@ -9,8 +9,7 @@ import {
     getSelectedAddress,
     getPickUp,
     getDropOff,
-    deleteResultAddress,
-    getDistanceMatrix
+    deleteResultAddress
 } from '../actions';
 
 
@@ -25,7 +24,6 @@ const mapStateToProps = (state) => ({
     currentLocation: state.map.currentLocation,
     arrayMarker: state.map.arrayMarker,
     deleted: state.map.deleted,
-    distanceMatrix: state.map.distanceMatrix
 });
 
 const mapDispatchToProps = (dispatch) => ({
