@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const baseURL = 'http://127.0.0.1:8000';
-export const doBookPackage = (dispatch, bookPackage, 
+export const doBookPackage = (dispatch, bookPackage, unload,
                                 weight, customerName, customerPhone, 
                                 pickUpCoordinate, destinationCoordinate,
                                 distanceMatrix, duration,
-                                height, width, length, price, checkTypeOfPackage) => {
+                                height, width, length, price, checkTypeOfPackage, pickUpLocationAddress, dropOffLocationAddress) => {
         // console.log(customerName, customerPhone, pickUpCoordinate, destinationCoordinate, distance);
         const pickUpLocation = `{"latitude":${pickUpCoordinate.latitude},"longitude":${pickUpCoordinate.longitude}}`;
         const destinationLocation = `{"latitude":${destinationCoordinate.latitude},"longitude":${destinationCoordinate.longitude}}`;
@@ -25,7 +25,9 @@ export const doBookPackage = (dispatch, bookPackage,
                         duration: duration,
                         size: packageSize,
                         note: 'string',
-                        price: price 
+                        price: price,
+                        pickup_location_address: pickUpLocationAddress,
+                        destination_address: dropOffLocationAddress 
                 };
                 console.log('optional', variableParams);
         } else {
@@ -40,7 +42,9 @@ export const doBookPackage = (dispatch, bookPackage,
                         distance: distanceMatrix,
                         duration: duration,
                         note: 'string',
-                        price: price 
+                        price: price,
+                        pickup_location_address: pickUpLocationAddress,
+                        destination_address: dropOffLocationAddress 
                 };
                 console.log('normal', variableParams);
         }
@@ -50,7 +54,9 @@ export const doBookPackage = (dispatch, bookPackage,
         )
         .then((response) => {
                 if (response.status === 201) {
-                     dispatch(bookPackage());
+                     dispatch(unload());
+                     setTimeout(() => dispatch(bookPackage()), 1000);
+                //      dispatch(bookPackage());
                 } else {
                      console.log(response);
                 }
@@ -116,5 +122,3 @@ export const doGetOptionalPackage = (dispatch, getOptionalPackage) => {
                 alert(error.message);
         });   
 };
-
-

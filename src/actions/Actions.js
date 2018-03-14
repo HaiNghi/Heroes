@@ -16,7 +16,9 @@ import {
     GET_PRICE,
     DISABLE_PRICE,
     GET_NORMAL_PACKAGE,
-    GET_OPTIONAL_PACKAGE
+    GET_OPTIONAL_PACKAGE,
+    LOADING,
+    UNLOAD
 } from './types';
 
 export const getCurrentLocation = () => {
@@ -120,7 +122,7 @@ export const getCustomerPhone = (text) => {
 };
 export const bookPackage = () => {
     return {
-        type: BOOK_PACKAGE
+        type: BOOK_PACKAGE 
     };
 };
 
@@ -167,5 +169,17 @@ export const getOptionalPackage = (list) => {
     return {
         type: GET_OPTIONAL_PACKAGE,
         payload: list
+    };
+};
+
+export const loading = () => {
+    return {
+        type: LOADING
+    };
+};
+
+export const unload = () => {
+    return {
+        type: UNLOAD
     };
 };

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { Container, View, Text, Button, Picker } from 'native-base';
 import Modal from 'react-native-modal';
-// import Spinner from 'react-native-loading-spinner-overlay';
-import { HeaderBase, Inputs, SubmitButton } from './common';
+import { HeaderBase, Inputs, SubmitButton, Spinner } from './common';
 import { PackageRegisterStyle, styles } from './styles';
 
 /* eslint-disable global-require */
@@ -31,10 +30,12 @@ export default class PackageRegister extends Component {
         this.props.getOptionalPackage();
         this.props.disablePrice();
     }
+
     onAccept = () => {
         this.setState({ modalShow: false });
     }
 
+    //input value for TextInput and check if price can be calculated
     onCheck = (value, type) => {
         if (this.props.showPrice) {
             this.props.disablePrice();
@@ -72,9 +73,12 @@ export default class PackageRegister extends Component {
             default:
         }
     }
+
+    //go back to previous screen
     onDismiss() {
         this.props.navigation.goBack();
     }
+    //get the price for the trip
     getPrice = () => {
         const { height, weight, width, length, typeOfPackage } = this.state;
         const { distanceMatrix, duration } = this.props;
@@ -84,7 +88,6 @@ export default class PackageRegister extends Component {
             });
             this.setState({ showPrice: true });
         } else {
-            console.log(typeOfPackage);
             if (typeOfPackage !== 0) {
                 this.setState({ checkTypeOfPackage: 'normal' }, function () {
                     this.props.getPrice(height, width, typeOfPackage, length, distanceMatrix, duration, this.state.checkTypeOfPackage);
@@ -94,37 +97,34 @@ export default class PackageRegister extends Component {
                 this.setState({ showPrice: false });
             }
         }
-        // this.setState({ showPrice: true });
-        // if (height === '' || weight === '' || width === '' || length === '') {
-        //     // alert('Please fulfill size of package!');
-        //     console.log('OK');
-        // } else {
-        //     this.setState({ showPrice: true });
-        //     this.props.getPrice(height, width, weight, length, distanceMatrix, duration);
-        // }
     }
+    //unable warning modal
     disableModal = () => {
         this.setState({ modalWarningShow: false });
     }
+    //book the package
     bookPackage = () => {
         this.setState({ showSpinner: true });
         const { params } = this.props.navigation.state;
         const { customerName, customerPhone, distanceMatrix, duration, price } = this.props;
         const { height, weight, width, length, checkTypeOfPackage, typeOfPackage } = this.state;
+        const { pickUpLocationAddress, dropOffLocationAddress } = this.props.navigation.state.params;
         
         if (customerName !== '' && customerPhone !== '' && customerPhone.length >= 10) {
             if (checkTypeOfPackage === 'optional') {
+                this.props.loading();
                 this.props.bookPackage(weight, customerName, customerPhone, 
                     params.pickUpCoordinate, params.destinationCoordinate,
                     distanceMatrix, duration,
-                    height, width, length, price, checkTypeOfPackage
+                    height, width, length, price, checkTypeOfPackage, pickUpLocationAddress, dropOffLocationAddress
                 );
             } else {
                 console.log('OK', typeOfPackage, checkTypeOfPackage);
+                this.props.loading();
                 this.props.bookPackage(typeOfPackage, customerName, customerPhone, 
                     params.pickUpCoordinate, params.destinationCoordinate,
                     distanceMatrix, duration,
-                    height, width, length, price, checkTypeOfPackage
+                    height, width, length, price, checkTypeOfPackage, pickUpLocationAddress, dropOffLocationAddress
                 );
             }
         } else {
@@ -132,6 +132,7 @@ export default class PackageRegister extends Component {
         }
     }
 
+    //check validation for name
     validateForName = (text) => {
         const reg = /^[a-zA-Z\s]+$/;
         if (!reg.test(text)) {
@@ -139,13 +140,16 @@ export default class PackageRegister extends Component {
         } 
         this.props.getCustomerName(text);
     }
+    // navigate to home screen
     navigateToScreen = () => {
         this.props.onDecline();
         this.props.navigation.navigate('Home');
     }
+    //create the array [1,...49]
     renderArray = (start, end) => {
         return Array.from({ length: (end - start) }, (v, k) => k + start);
     }
+    //render from json list to array list and show in picker
     renderItem = () => {
         const items = [];
         for (const item of this.renderArray(1, 50)) {
@@ -157,6 +161,7 @@ export default class PackageRegister extends Component {
     
      render() {
         const { params } = this.props.navigation.state;
+        console.log(this.props.showSpinner, this.props.success);
         return (
             <Container style={styles.containerStyle}>
                 <HeaderBase headerText="Package Information" navigation={this.props.navigation} />
@@ -164,7 +169,7 @@ export default class PackageRegister extends Component {
                     <View style={PackageRegisterStyle.inputWrapper}>
                         <Inputs 
                             placeholder="Customer's name"
-                            value={params.customerName}
+                            value={this.props.customerName}
                             onChangeText={value => this.validateForName(value)}
                             keyboardType="default"
                             returnKeyType="done"
@@ -175,7 +180,7 @@ export default class PackageRegister extends Component {
                     <View style={PackageRegisterStyle.inputWrapper}>
                             <Inputs 
                                 placeholder="Phone number"
-                                value={params.customerPhone}
+                                value={this.props.customerPhone}
                                 onChangeText={value => this.props.getCustomerPhone(value)}
                                 keyboardType="number-pad"
                                 returnKeyType="done"
@@ -187,14 +192,14 @@ export default class PackageRegister extends Component {
                     <View style={PackageRegisterStyle.inputWrapper}>
                         <Inputs 
                             editable={false}
-                            value={params.pickUpLocation} 
+                            value={params.pickUpLocationAddress} 
                             moreStyle={{ backgroundColor: '#ACD1D1D1', borderRadius: 7 }}
                         />
                     </View>
                     <View style={PackageRegisterStyle.inputWrapper}>
                         <Inputs 
                             editable={false}
-                            value={params.dropOffLocation} 
+                            value={params.dropOffLocationAddress} 
                             moreStyle={{ backgroundColor: '#ACD1D1D1', borderRadius: 7 }}
                         />
                     </View>
@@ -304,18 +309,24 @@ export default class PackageRegister extends Component {
                     </SubmitButton>
                 </View> */}
 
-                <Modal isVisible={this.props.success} >
-                    <View style={styles.innerContainer}>
-                        <Image 
-                            source={require('./image/checked.png')}
-                            style={styles.imageStyle}
-                        />
-                        <Text style={styles.textStyle}>Book sucessfully! Please wait for shipper after few minutes!</Text>
-                        <SubmitButton onPress={() => this.navigateToScreen()}>
-                            DISMISS
-                        </SubmitButton> 
-                    </View>
-                </Modal>
+                    <Modal isVisible={this.props.showSpinner}>
+                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                            <Spinner />
+                        </View>
+                    </Modal> 
+
+                    <Modal isVisible={this.props.success}>
+                        <View style={styles.innerContainer}>
+                            <Image 
+                                source={require('./image/checked.png')}
+                                style={styles.imageStyle}
+                            />
+                            <Text style={styles.textStyle}>Book sucessfully! Please wait for shipper after few minutes!</Text>
+                            <SubmitButton onPress={() => this.navigateToScreen()}>
+                                DISMISS
+                            </SubmitButton> 
+                        </View>
+                    </Modal>
 
                 <Modal isVisible={this.state.modalWarningShow} >
                     <View style={styles.innerContainer}>
@@ -329,6 +340,7 @@ export default class PackageRegister extends Component {
                         </SubmitButton> 
                     </View>
                 </Modal>
+               
 
                 {/* <View style={{ flex: 1 }}>
                     <Spinner visible={this.state.showSpinner} textContent={'Loading...'} textStyle={{ color: 'red' }} />

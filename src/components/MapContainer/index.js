@@ -15,9 +15,12 @@ class MapContainer extends Component {
             this.state = { modalWarningShow: false };
         }
 
+        //unable warning modal
         onDecline() {
             this.setState({ modalWarningShow: false });
         }
+
+        //Get the coordinate, depending on the number of locations
         getState(c1, c2) {
             let check = c2;
             if (this.props.currentLocation.dropOff && this.props.deleted === false) {
@@ -25,16 +28,19 @@ class MapContainer extends Component {
             }
             return check;
         }
+
         calculateAverate(c1, c2) {
             return (c1 === null) ? c2 : ((Math.abs(c1) + Math.abs(c2)) / 2);
         }
+
+        //navigate to other screen
         navigateToScreen() {
             if (this.props.pickUp === '' || this.props.dropOff === '') {
                 this.setState({ modalWarningShow: true });
             } else {
                 this.props.navigation.navigate('PackageRegister', 
-                                                { pickUpLocation: this.props.pickUp, 
-                                                dropOffLocation: this.props.dropOff,
+                                                { pickUpLocationAddress: this.props.pickUp, 
+                                                dropOffLocationAddress: this.props.dropOff,
                                                 pickUpCoordinate: this.props.region,
                                                 destinationCoordinate: this.props.nextRegion
                                                 });
@@ -73,7 +79,7 @@ class MapContainer extends Component {
                             latitudeDelta: (nextRegion.latitudeDelta === null) ? 0.04 : 0.092,
                             longitudeDelta: (nextRegion.longitudeDelta === null) ? region.longitudeDelta : 0.04
                         }} 
-                        showsUserLocation={true}
+                        showsUserLocation
                     >
                     <MapView.Marker 
                         coordinate={region}
@@ -119,7 +125,7 @@ class MapContainer extends Component {
                                 source={require('../image/warning.png')}
                                 style={styles.imageStyle}
                             />
-                            <Text style={styles.textStyle}>You need to fufill all locations!</Text>
+                            <Text style={styles.textStyle}>You need to fulfill all locations!</Text>
                             <SubmitButton onPress={() => this.onDecline()}>
                                 DISMISS
                             </SubmitButton> 

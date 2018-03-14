@@ -14,3 +14,5 @@ export const GET_PRICE = 'get_price';
 export const DISABLE_PRICE = 'disable_price';
 export const GET_NORMAL_PACKAGE = 'get_normal_package';
 export const GET_OPTIONAL_PACKAGE = 'get_optional_package';
+export const LOADING = 'loading';
+export const UNLOAD = 'unload';

@@ -10,7 +10,9 @@ import {
     getPrice,
     disablePrice,
     getNormalPackage,
-    getOptionalPackage
+    getOptionalPackage,
+    loading,
+    unload
 } from '../actions';
 
 const mapStateToProps = (state) => ({
@@ -18,11 +20,12 @@ const mapStateToProps = (state) => ({
     duration: state.package.duration,
     customerName: state.package.customerName,
     customerPhone: state.package.customerPhone,
+    showSpinner: state.package.showSpinner,
     success: state.package.success,
     showPrice: state.package.showPrice,
     price: state.package.price,
     normalPackageList: state.package.normalPackageList,
-    optionalPackageList: state.package.optionalPackageList
+    optionalPackageList: state.package.optionalPackageList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -41,11 +44,11 @@ const mapDispatchToProps = (dispatch) => ({
     bookPackage: (weight, customerName, customerPhone, 
                     pickUpCoordinate, destinationCoordinate,
                     distanceMatrix, duration,
-                    height, width, length, price, checkTypeOfPackage) => {
-        doBookPackage(dispatch, bookPackage, weight, customerName, customerPhone, 
+                    height, width, length, price, checkTypeOfPackage, pickUpLocationAddress, dropOffLocationAddress) => {
+        doBookPackage(dispatch, bookPackage, unload, weight, customerName, customerPhone, 
                         pickUpCoordinate, destinationCoordinate,
                         distanceMatrix, duration,
-                        height, width, length, price, checkTypeOfPackage);
+                        height, width, length, price, checkTypeOfPackage, pickUpLocationAddress, dropOffLocationAddress);
     },
     onDecline: () => {
         dispatch(bookPackage());
@@ -58,6 +61,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getOptionalPackage: () => {
         doGetOptionalPackage(dispatch, getOptionalPackage);
+    },
+    loading: () => {
+        dispatch(loading());
     }
 
 });

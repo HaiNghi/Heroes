@@ -6,7 +6,9 @@ import {
     GET_PRICE,
     DISABLE_PRICE,
     GET_NORMAL_PACKAGE,
-    GET_OPTIONAL_PACKAGE
+    GET_OPTIONAL_PACKAGE,
+    LOADING,
+    UNLOAD
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -27,8 +29,11 @@ export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_DISTANCE_MATRIX: {
             return { ...state, 
+                    customerName: '',
+                    customerPhone: '',
                     distanceMatrix: action.payload.rows[0].elements[0].distance.value,
-                    duration: action.payload.rows[0].elements[0].duration.value
+                    duration: action.payload.rows[0].elements[0].duration.value,
+                    
             };
         }
         case GET_CUSTOMER_NAME:
@@ -46,7 +51,7 @@ export default (state = INITIAL_STATE, action) => {
         case GET_PRICE: 
             return { ...state,
                     showPrice: true,
-                    price: action.payload
+                    price: action.payload,
             };
         case DISABLE_PRICE:
             return { ...state,
@@ -59,6 +64,16 @@ export default (state = INITIAL_STATE, action) => {
         case GET_OPTIONAL_PACKAGE:
             return { ...state,
                     optionalPackageList: action.payload
+            };
+        case LOADING: 
+            console.log(state.showSpinner);
+            return { ...state,
+                    showSpinner: !state.showSpinner,
+            };
+        case UNLOAD: 
+            console.log(state.showSpinner);
+            return { ...state,
+                    showSpinner: false
             };
         default:
             return state;

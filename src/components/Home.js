@@ -4,16 +4,13 @@ import MapContainer from './MapContainer';
 import { HeaderForHome } from './common';
 
 class Home extends Component {
-    
     componentDidMount() {
         this.props.getCurrentLocation();
-        console.log("OK");
     } 
 
     render() {
         return (
             <Container>
-                
                 <HeaderForHome headerText="Heroes" navigation={this.props.navigation} />
                 
                 {this.props.region.latitude &&
