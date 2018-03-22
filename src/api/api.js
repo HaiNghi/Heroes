@@ -1,6 +1,27 @@
+import { AsyncStorage, Alert } from 'react-native';
 import axios from 'axios';
 
-const baseURL = 'http://127.0.0.1:8000';
+// const baseURL = 'http://127.0.0.1:8000';
+const baseURL = 'http://192.168.21.181:8000';
+let user = [];
+AsyncStorage.getItem('user_info', (error, result) => {
+        user = JSON.parse(result);
+});
+// const baseURL = 'http://ec2-34-231-21-217.compute-1.amazonaws.com:8000';
+export const processLogin = (dispatch, loginSuccess, loginFail, loadSpinner, email, password) => {
+        axios.post(`${baseURL}/api/login`, {
+                email,
+                password
+        }).then((response) => {
+                console.log(response);
+                AsyncStorage.setItem('user_info', JSON.stringify(response.data.data));
+                dispatch(loginSuccess());
+        }).catch((error) => {
+                dispatch(loginFail(error.response.status));
+                console.log(error.response);
+        });
+};
+
 export const doBookPackage = (dispatch, bookPackage, unload,
                                 weight, customerName, customerPhone, 
                                 pickUpCoordinate, destinationCoordinate,
@@ -22,10 +43,10 @@ export const doBookPackage = (dispatch, bookPackage, unload,
                         pickup_location: pickUpLocation,
                         destination: destinationLocation,
                         distance: distanceMatrix,
-                        duration: duration,
+                        duration,
                         size: packageSize,
                         note: 'string',
-                        price: price,
+                        price,
                         pickup_location_address: pickUpLocationAddress,
                         destination_address: dropOffLocationAddress 
                 };
@@ -40,9 +61,9 @@ export const doBookPackage = (dispatch, bookPackage, unload,
                         pickup_location: pickUpLocation,
                         destination: destinationLocation,
                         distance: distanceMatrix,
-                        duration: duration,
+                        duration,
                         note: 'string',
-                        price: price,
+                        price,
                         pickup_location_address: pickUpLocationAddress,
                         destination_address: dropOffLocationAddress 
                 };
@@ -50,7 +71,9 @@ export const doBookPackage = (dispatch, bookPackage, unload,
         }
         console.log(pickUpLocation, destinationLocation);
         axios.post(`${baseURL}/api/requestShips`, 
-                variableParams
+                variableParams, {
+                        headers: { Authorization: `Bearer ${user.token}` } 
+                }
         )
         .then((response) => {
                 if (response.status === 201) {
@@ -62,7 +85,7 @@ export const doBookPackage = (dispatch, bookPackage, unload,
                 }
         })
         .catch((error) => {
-                alert(error.message);
+                Alert.alert(error.message);
         });
 };
 
@@ -78,47 +101,52 @@ export const doGetPrice = (dispatch, getPrice, height, width, weight,
                         package_type_id: weight,
                         size: packageSize,
                         distance: distanceMatrix,
-                        duration: duration
+                        duration
                 };
         } else {
                 variableParams = {
                         package_type_id: weight,
                         distance: distanceMatrix,
-                        duration: duration
+                        duration
                 }; 
         }
         
         console.log(packageSize);
-        axios.get(`${baseURL}/api/requestShips/packageFare`, {
-                params: variableParams
-        })
+        axios.get(`${baseURL}/api/requestShips/packageFare`, 
+                { params: variableParams, 
+                headers: { Authorization: `Bearer ${user.token}` } }
+        )
         .then((response) => {
                 console.log(response);
                 dispatch(getPrice(response.data.price.toFixed(0)));
         })
         .catch((error) => {
-                alert(error.message);
+                Alert.alert(error.message);
         });                        
 };
 
 export const doGetNormalPackage = (dispatch, getNormalPackage) => {
-        axios.get(`${baseURL}/api/packageTypes/normal`)
+        axios.get(`${baseURL}/api/packageTypes/normal`, {
+                headers: { Authorization: `Bearer ${user.token}` } 
+        })
         .then((response) => {
                 console.log(response.data.data);
                 dispatch(getNormalPackage(response.data.data));
         })
         .catch((error) => {
-                alert(error.message);
+                Alert.alert(error.message);
         });   
 };
 
 export const doGetOptionalPackage = (dispatch, getOptionalPackage) => {
-        axios.get(`${baseURL}/api/packageTypes/optional`)
+        axios.get(`${baseURL}/api/packageTypes/optional`, {
+                headers: { Authorization: `Bearer ${user.token}` } 
+        })
         .then((response) => {
                 console.log(response.data.data);
                 dispatch(getOptionalPackage(response.data.data));
         })
         .catch((error) => {
-                alert(error.message);
+                Alert.alert(error.message);
         });   
 };

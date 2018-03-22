@@ -33,6 +33,7 @@ const LONGTITUDEDELTA = ASPECT_RATION * LATITUDEDELTA;
 
 
 export default (state = INITIAL_STATE, action) => {
+    console.log(action);
     switch (action.type) {
         case GET_CURRENT_LOCATION: {
             const LATITUDE = action.payload.coords.latitude;
@@ -77,6 +78,7 @@ export default (state = INITIAL_STATE, action) => {
                     dropOff: action.payload,
             };
         case TOOGLE_SEARCH_RESULT: {
+            console.log(state.resultTypes);
             if (action.payload === 'pickUp') {
                 return { ...state, 
                         resultTypes: { pickUp: true, dropOff: false }, 

@@ -18,12 +18,18 @@ import styles from './SearchBoxStyles';
                         }) => {
     function handleGetPickUp(text) {
         getPickUp(text);
-        getAddressPredictions(text, { region });
+        if (text !== '') {
+            toogleSearchResult('pickUp');
+            getAddressPredictions(text, { region });
+        }  
     }
 
     function handleGetDropOff(text) {
         getDropOff(text);
-        getAddressPredictions(text, { region });
+        if (text !== '') {
+            toogleSearchResult('dropOff');
+            getAddressPredictions(text, { region });
+        }  
     }
 
     function deleteAddress(text) {
@@ -31,6 +37,7 @@ import styles from './SearchBoxStyles';
         deleteResultAddress(text);
         Keyboard.dismiss();
     }
+
 
     return (
         <View style={styles.searchBox}>
@@ -42,15 +49,19 @@ import styles from './SearchBoxStyles';
                     </Button>
                     
                     <Input 
-                        onFocus={() => toogleSearchResult('pickUp')} style={styles.inputSearch} placeholder="Choose pick-up location" 
+                        style={styles.inputSearch} placeholder="Choose pick-up location" 
                         onChangeText={
                             handleGetPickUp.bind(this)
                     }
                         value={pickUp}
                     />
-                    <Button transparent onPress={deleteAddress.bind(this, 'pickUp')} accessible={false}>
-                        <Icon name="md-close" size={15} color="#ff5e3a" />
-                    </Button>
+                    {
+                        (pickUp !== '') &&
+                        <Button transparent onPress={deleteAddress.bind(this, 'pickUp')} accessible={false}>
+                            <Icon name="md-close" size={15} color="#ff5e3a" />
+                        </Button>
+                    }
+                   
                 </InputGroup>
             </View>
             <View style={styles.secondInputWrapper}>
@@ -61,15 +72,19 @@ import styles from './SearchBoxStyles';
                     </Button>
 
                     <Input 
-                        onFocus={() => toogleSearchResult('dropOff')} style={styles.inputSearch} placeholder="Choose drop-off location" 
+                        style={styles.inputSearch} placeholder="Choose drop-off location" 
                         onChangeText={
                             handleGetDropOff.bind(this)
                         }
                         value={dropOff}
                     />
-                    <Button transparent onPress={deleteAddress.bind(this, 'dropOff')} accessible={false}>
-                        <Icon name="md-close" size={15} color="#ff5e3a" />
-                    </Button>
+                    {
+                        (dropOff !== '') &&
+                        <Button transparent onPress={deleteAddress.bind(this, 'dropOff')} accessible={false}>
+                            <Icon name="md-close" size={15} color="#ff5e3a" />
+                        </Button>
+                    }
+                   
                 </InputGroup>
             </View>
             

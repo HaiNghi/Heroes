@@ -1,22 +1,42 @@
 import { connect } from 'react-redux';
 
 import Login from '../components/Login';
-import {} from '../actions';
+import {
+    inputEmail,
+    inputPassword,
+    loginSuccess,
+    loginFail,
+    loadSpinner,
+    disableModal
+} from '../actions';
+import { processLogin } from '../api/api';
 
-// function mapStateToProps(state) {
-//     return {
-//         region: state.map.region,
-//         inputData: state.map.inputData || {},
-//         resultTypes: state.map.resultTypes || {},
-//         predictions: state.map.predictions || [],
-//         pickUp: state.map.pickUp,
-//         dropOff: state.map.dropOff,
-//         pickUpRegion: state.map.pickUpRegion || {},
-//         nextRegion: state.map.nextRegion || {},
-//         currentLocation: state.map.currentLocation,
-//         arrayMarker: state.map.arrayMarker,
-//         deleted: state.map.deleted
-//     };
-// }
+const mapStateToProps = (state) => ({
+    email: state.auth.email,
+    password: state.auth.password,
+    loading: state.auth.loading,
+    success: state.auth.success,
+    fail: state.auth.fail,
+    errorCode: state.auth.errorCode,
+    showModal: state.auth.showModal
+});
 
-export default connect()(Login);
+const mapDispatchToProps = (dispatch) => ({
+    inputEmail: (text) => {
+        dispatch(inputEmail(text));
+    },
+    inputPassword: (text) => {
+        dispatch(inputPassword(text));
+    },
+    login: (email, password) => {
+        processLogin(dispatch, loginSuccess, loginFail, loadSpinner, email, password);
+    },
+    loadSpinner: () => {
+        dispatch(loadSpinner());
+    },
+    disableModal: () => {
+        dispatch(disableModal());
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

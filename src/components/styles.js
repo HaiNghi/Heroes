@@ -63,6 +63,16 @@ export const SlideMenuStyle = StyleSheet.create({
         alignSelf: 'center',
         fontSize: 15,
     },
+    avatar: { 
+        width: 90, 
+        height: 90, 
+        marginBottom: 10 
+    },
+    headerStyle: {
+        height: 200, 
+        backgroundColor: '#ECE8E7', 
+        marginTop: 20 
+    }
 });
 
 export const RegisterStyle = StyleSheet.create({
@@ -134,15 +144,16 @@ export const PackageRegisterStyle = StyleSheet.create({
         marginTop: 30 
     },
     label: {
-        fontSize: 18, 
+        fontSize: 16, 
         padding: 10, 
-        color: '#ff5e3a', 
-        fontWeight: 'bold'
+        color: '#323232', 
+        fontWeight: 'bold',
+        fontStyle: 'italic'
     },
     pickerText: {
-        fontSize: 16, 
+        fontSize: 15, 
         paddingLeft: 10, 
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         marginTop: 12,
     },
 });

@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity, AsyncStorage } from 'react-native';
 import { Container, Header, Body, Content, Footer, Button, Text } from 'native-base';
 import Modal from 'react-native-modal';
 import { SlideMenuStyle, styles } from './styles';
 /* eslint-disable global-require */
 
 class SlideMenu extends Component {
-    state={ emergency: false };
+    constructor(props) {
+        super(props);
+        this.state = { emergency: false, user_info: [] };
+    }
+    
+    componentDidMount() {
+        AsyncStorage.getItem('user_info', (error, result) => {
+            this.setState({ user_info: JSON.parse(result) });
+       });
+    }
     
     onCallEmergency() {
         this.props.navigation.navigate('DrawerClose');
@@ -19,12 +28,18 @@ class SlideMenu extends Component {
     render() {
         return (
             <Container>
-                <Header style={{ height: 200, backgroundColor: '#ECE8E7' }}>
+                <Header style={SlideMenuStyle.headerStyle}>
                     <Body>
-                        <Image
-                            source={require('./image/user.png')}
-                        />
-                        <Text style={styles.textStyle}>Nickie</Text>
+                        <Button transparent onPress={() => this.props.navigation.navigate('Profile')}>
+                            <Image
+                                source={require('./image/user.png')}
+                                style={SlideMenuStyle.avatar}
+                            />
+                        </Button>
+                       
+                        <Text style={styles.textStyle}>{this.state.user_info.full_name}</Text>
+                        {/* <Text style={[styles.textStyle, { fontSize: 19, marginTop: 25, marginBottom: 5 }]}>Nickie</Text> */}
+                        <Text style={{ textAlign: 'center' }}>134 points | Reward member</Text>
                     </Body>
                 </Header>
                 <Content>

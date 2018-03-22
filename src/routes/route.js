@@ -1,8 +1,8 @@
 import React from 'react';
+import { Image } from 'react-native';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import { Root, Icon } from 'native-base';
 import SlideMenu from '../components/SlideMenu';
-// import Login from '../containers/Login';
 import Home from '../containers/Home';
 import Histories from '../containers/Histories';
 import Notifications from '../containers/Notifications';
@@ -12,6 +12,7 @@ import DetailItem from '../components/HistoryItem/DetailItem';
 import HelpCentreItem from '../components/HelpCentreItem';
 import Login from '../containers/Login';
 import Register from '../containers/Register';
+import Profile from '../containers/Profile';
 
 const MainNavigator = DrawerNavigator({
     Home: { 
@@ -32,14 +33,17 @@ const MainNavigator = DrawerNavigator({
     HelpCentreItem: { 
         screen: HelpCentreItem
     },
-        
+    Profile: {
+        screen: Profile,
+    }
+ 
 }, 
 {
     contentComponent: props => <SlideMenu {...props} />,
     headerMode: 'none',
-    drawerOpenRoute: 'DrawerOpen',
-    drawerCloseRoute: 'DrawerClose',
-    drawerToggleRoute: 'DrawerToggle'     
+    navigationOptions: {
+        drawerLockMode: 'locked-closed'
+    }    
 });
 
 const AppNavigator = StackNavigator({
@@ -62,7 +66,10 @@ const AppNavigator = StackNavigator({
     headerMode: 'none', 
     drawerOpenRoute: 'DrawerOpen',
     drawerCloseRoute: 'DrawerClose',
-    drawerToggleRoute: 'DrawerToggle' 
+    drawerToggleRoute: 'DrawerToggle',
+    navigationOptions: {
+        gesturesEnabled: false,
+    } 
     
 });
 

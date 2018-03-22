@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, Alert } from 'react-native';
 import { Container, View, Text, Button, Picker } from 'native-base';
 import Modal from 'react-native-modal';
 import { HeaderBase, Inputs, SubmitButton, Spinner } from './common';
@@ -73,7 +73,7 @@ export default class PackageRegister extends Component {
             default:
         }
     }
-
+   
     //go back to previous screen
     onDismiss() {
         this.props.navigation.goBack();
@@ -97,6 +97,15 @@ export default class PackageRegister extends Component {
                 this.setState({ showPrice: false });
             }
         }
+    }
+    validateField(text) {
+        Alert.alert(
+            null,
+            `${text}`,
+            [{ text: 'OK', onPress: () => console.log('OK Pressed'), style: 'cancel' },
+            ],
+            { cancelable: false }
+          );
     }
     //unable warning modal
     disableModal = () => {
@@ -127,16 +136,21 @@ export default class PackageRegister extends Component {
                     height, width, length, price, checkTypeOfPackage, pickUpLocationAddress, dropOffLocationAddress
                 );
             }
+        } 
+            // this.setState({ modalWarningShow: true });
+        if (customerName === '') {
+            this.validateField('Please input receiver\'s name');
         } else {
-            this.setState({ modalWarningShow: true });
+            (customerPhone === '') ?
+                this.validateField('Please input receiver\'s phone number')
+            : (((customerPhone.length < 10)) ? this.validateField('Invalid phone number!'): null);
+            }
         }
-    }
-
     //check validation for name
     validateForName = (text) => {
         const reg = /^[a-zA-Z\s]+$/;
         if (!reg.test(text)) {
-            alert('Invalid name! Please input again!');
+            Alert.alert('Invalid name! Please input again!');
         } 
         this.props.getCustomerName(text);
     }
@@ -166,45 +180,46 @@ export default class PackageRegister extends Component {
             <Container style={styles.containerStyle}>
                 <HeaderBase headerText="Package Information" navigation={this.props.navigation} />
                 <View>
-                    <View style={PackageRegisterStyle.inputWrapper}>
+                    <View style={[PackageRegisterStyle.inputWrapper]}>
+                        <Text style={PackageRegisterStyle.label}>Location </Text>
+                        <View style={{ flexDirection: 'row', margin: 5 }}>
+                            <Image 
+                                style={{ height: 20, width: 20, marginRight: 5 }}
+                                source={require('./image/placeholder.png')} 
+                            />
+                            <Text style={{ fontSize: 14 }}>{params.pickUpLocationAddress} </Text>
+                           
+                        </View>
+                        <View style={{ flexDirection: 'row', margin: 5 }}>
+                                <Image 
+                                    style={{ height: 20, width: 20, marginRight: 5 }}
+                                    source={require('./image/destination.png')} 
+                                />
+                                <Text style={{ fontSize: 14 }}>{params.dropOffLocationAddress} </Text>
+                        </View> 
+                               
+                    </View>
+                    <View style={[PackageRegisterStyle.inputWrapper, { marginTop: 20 }]}>
+                        <Text style={PackageRegisterStyle.label}>Receiver's info </Text>
                         <Inputs 
-                            placeholder="Customer's name"
+                            placeholder="Full name"
                             value={this.props.customerName}
                             onChangeText={value => this.validateForName(value)}
                             keyboardType="default"
                             returnKeyType="done"
                             maxLength={50}
-                            minLength={3}
                         />
-                    </View>
-                    <View style={PackageRegisterStyle.inputWrapper}>
-                            <Inputs 
+                        <Inputs 
                                 placeholder="Phone number"
                                 value={this.props.customerPhone}
                                 onChangeText={value => this.props.getCustomerPhone(value)}
                                 keyboardType="number-pad"
                                 returnKeyType="done"
                                 maxLength={11}
-                                minLength={10}
-                            />
-                       
-                    </View>
-                    <View style={PackageRegisterStyle.inputWrapper}>
-                        <Inputs 
-                            editable={false}
-                            value={params.pickUpLocationAddress} 
-                            moreStyle={{ backgroundColor: '#ACD1D1D1', borderRadius: 7 }}
                         />
                     </View>
                     <View style={PackageRegisterStyle.inputWrapper}>
-                        <Inputs 
-                            editable={false}
-                            value={params.dropOffLocationAddress} 
-                            moreStyle={{ backgroundColor: '#ACD1D1D1', borderRadius: 7 }}
-                        />
-                    </View>
-                    <View style={PackageRegisterStyle.inputWrapper}>
-                        <Text style={PackageRegisterStyle.label}>Package </Text>
+                        <Text style={PackageRegisterStyle.label}>Package's info </Text>
                             <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                                 <Text style={PackageRegisterStyle.pickerText} >Type of package: </Text>
                                 <Picker
@@ -290,14 +305,11 @@ export default class PackageRegister extends Component {
                 { (this.state.showPrice) &&
                         <View style={PackageRegisterStyle.priceWrapper}>
                             <View style={{ flex: 2, marginLeft: 10 }}>
-                                <Text style={[styles.textStyle, { color: '#fff', textAlign: 'auto' }]}>VND  {this.props.price}</Text>
+                                <Text style={[styles.textStyle, { color: '#fff', textAlign: 'auto' }]}>VND {this.props.price}</Text>
                             </View>
-                            <View style={{ flex: 2, flexDirection: 'row' }}>
+                            <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <Button transparent onPress={() => this.bookPackage()}>
                                     <Text style={styles.textStyle}>BOOK</Text>
-                                </Button>
-                                <Button transparent onPress={() => this.onDismiss()}>
-                                    <Text style={styles.textStyle}>DISMISS</Text>
                                 </Button>
                             </View>
                         </View> 

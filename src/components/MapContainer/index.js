@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Alert, AsyncStorage } from 'react-native';
 import { Text } from 'native-base'; 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import Modal from 'react-native-modal';
+import firebase from 'firebase';
+import PushNotification from 'react-native-push-notification';
+import { pushNotifications } from '../../notificationService';
 import SearchBox from '../SearchBox';
 import SearchResult from '../SearchResults';
 import { SubmitButton } from '../common';
 import styles from './MapContainerStyle';
+
 /* eslint-disable global-require */
+pushNotifications.configure();
 
 class MapContainer extends Component {
         constructor(props) {
             super(props);
-            this.state = { modalWarningShow: false };
+            this.state = { modalWarningShow: false, id: 0 };
+        }
+        componentDidMount() {
+            this.pushNotification();
         }
 
         //unable warning modal
@@ -33,20 +40,48 @@ class MapContainer extends Component {
             return (c1 === null) ? c2 : ((Math.abs(c1) + Math.abs(c2)) / 2);
         }
 
+        customAlert(text) {
+            Alert.alert(
+                null,
+                `Please input ${text} !`,
+                [{ text: 'OK', onPress: () => console.log('OK'), style: 'cancel' }],
+                { cancelable: false }
+              );
+        }
+
         //navigate to other screen
         navigateToScreen() {
-            if (this.props.pickUp === '' || this.props.dropOff === '') {
-                this.setState({ modalWarningShow: true });
-            } else {
-                this.props.navigation.navigate('PackageRegister', 
-                                                { pickUpLocationAddress: this.props.pickUp, 
-                                                dropOffLocationAddress: this.props.dropOff,
-                                                pickUpCoordinate: this.props.region,
-                                                destinationCoordinate: this.props.nextRegion
-                                                });
-            }
+            if (this.props.pickUp === '') this.customAlert('pick-up location'); 
+            else if (this.props.dropOff === '') this.customAlert('drop-off location');
+                else {
+                    this.props.navigation.navigate('PackageRegister', 
+                    { pickUpLocationAddress: this.props.pickUp, 
+                    dropOffLocationAddress: this.props.dropOff,
+                    pickUpCoordinate: this.props.region,
+                    destinationCoordinate: this.props.nextRegion
+                    });
+                }
         }
-        
+        //push notification
+        pushNotification = () => {
+            let pickedPackage = '';
+            AsyncStorage.getItem('user_info', (error, result) => {
+                this.setState({ id: JSON.parse(result).user_id });
+                firebase.database().ref(`package/package-owner/${this.state.id}`)
+                .on('child_added', (snapshot) => {
+                    pickedPackage = snapshot.val();
+                    PushNotification.localNotification({
+                        title: `Your package: ${pickedPackage.id} has been picked up! `,
+                        message: ` By shipper: ${pickedPackage.shipper_id} \n.
+                        Destination: ${pickedPackage.destination_address}`,
+                        playSound: true,
+                        soundName: 'default',
+                        userInfo: { id: `${pickedPackage.id}` }
+                    });
+              });
+            });
+        }
+           
         render() {
             const {
                 region, 
@@ -109,31 +144,18 @@ class MapContainer extends Component {
                         deleteResultAddress={deleteResultAddress}
                     />
                         
-                    { (resultTypes.pickUp || resultTypes.dropOff) &&
+                    { ((resultTypes.pickUp && pickUp !== '') || (resultTypes.dropOff && dropOff !== '')) &&
                         <SearchResult 
                             predictions={predictions} getSelectedAddress={getSelectedAddress}
                         />
                     }
-                    { (!resultTypes.pickUp || !resultTypes) &&
+                    { (!resultTypes || (!resultTypes.pickUp && !resultTypes.dropOff)) &&
                     <SubmitButton onPress={() => this.navigateToScreen()}>
-                       PACKAGE INFORMATION
+                       DELIVER
                     </SubmitButton>
                     }
-                    <Modal isVisible={this.state.modalWarningShow} >
-                        <View style={styles.innerContainer}>
-                            <Image 
-                                source={require('../image/warning.png')}
-                                style={styles.imageStyle}
-                            />
-                            <Text style={styles.textStyle}>You need to fulfill all locations!</Text>
-                            <SubmitButton onPress={() => this.onDecline()}>
-                                DISMISS
-                            </SubmitButton> 
-                        </View>
-                    </Modal>
                 </View> 
             );
         }
 }
-    
 export default MapContainer;

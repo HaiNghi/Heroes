@@ -30,7 +30,6 @@ class DetailItem extends Component {
                                 </Body>
                             </Left>
                         </CardItem>
-                        
                     </Card>
                     <Card>
                         <CardItem>
