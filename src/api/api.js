@@ -2,7 +2,8 @@ import { AsyncStorage, Alert } from 'react-native';
 import axios from 'axios';
 
 // const baseURL = 'http://127.0.0.1:8000';
-const baseURL = 'http://192.168.21.181:8000';
+// const baseURL = 'http://192.168.21.181:8000';
+const baseURL = 'http://ec2-34-231-21-217.compute-1.amazonaws.com:8000';
 let user = [];
 AsyncStorage.getItem('user_info', (error, result) => {
         user = JSON.parse(result);
@@ -14,8 +15,16 @@ export const processLogin = (dispatch, loginSuccess, loginFail, loadSpinner, ema
                 password
         }).then((response) => {
                 console.log(response);
-                AsyncStorage.setItem('user_info', JSON.stringify(response.data.data));
-                dispatch(loginSuccess());
+                switch (response.data.data.role_id) {
+                        case 3: {
+                                AsyncStorage.setItem('user_info', JSON.stringify(response.data.data));
+                                dispatch(loginSuccess());
+                                break;
+                        }
+                        default: {
+                                dispatch(loginFail('Unauthentication'));
+                        }
+                }
         }).catch((error) => {
                 dispatch(loginFail(error.response.status));
                 console.log(error.response);
@@ -28,6 +37,7 @@ export const doBookPackage = (dispatch, bookPackage, unload,
                                 distanceMatrix, duration,
                                 height, width, length, price, checkTypeOfPackage, pickUpLocationAddress, dropOffLocationAddress) => {
         // console.log(customerName, customerPhone, pickUpCoordinate, destinationCoordinate, distance);
+        
         const pickUpLocation = `{"latitude":${pickUpCoordinate.latitude},"longitude":${pickUpCoordinate.longitude}}`;
         const destinationLocation = `{"latitude":${destinationCoordinate.latitude},"longitude":${destinationCoordinate.longitude}}`;
         let packageSize = '';
@@ -145,6 +155,44 @@ export const doGetOptionalPackage = (dispatch, getOptionalPackage) => {
         .then((response) => {
                 console.log(response.data.data);
                 dispatch(getOptionalPackage(response.data.data));
+        })
+        .catch((error) => {
+                Alert.alert(error.message);
+        });   
+};
+export const processVerifyingOTPCode = (dispatch, verifyCodeResult, code, packageId) => {
+        axios.put(`${baseURL}/api/packageOwner/trip/${packageId}`, 
+        { otp_code: code }, 
+        { headers: { Authorization: `Bearer ${user.token}` }
+        }).then((response) => {
+                console.log(response);
+                dispatch(verifyCodeResult(response.data.message, 'success'));
+        }).catch((error) => {
+                dispatch(verifyCodeResult(error.response.data.message, 'fail'));
+                console.log(error.response);
+        });
+};
+
+export const processGettingHistoryList = (dispatch, getHistoryList) => {
+        axios.get(`${baseURL}/api/packageOwner/trip`, {
+                headers: { Authorization: `Bearer ${user.token}` } 
+        })
+        .then((response) => {
+                console.log(response.data.data);
+                dispatch(getHistoryList(response.data.data));
+        })
+        .catch((error) => {
+                Alert.alert(error.message);
+        });   
+};
+
+export const processGettingHistoryDetail = (dispatch, getHistoryDetail, id) => {
+        axios.get(`${baseURL}/api/packageOwner/trip/${id}`, {
+                headers: { Authorization: `Bearer ${user.token}` } 
+        })
+        .then((response) => {
+                console.log(response.data.data);
+                dispatch(getHistoryDetail(response.data.data));
         })
         .catch((error) => {
                 Alert.alert(error.message);

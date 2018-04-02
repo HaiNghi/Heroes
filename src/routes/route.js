@@ -8,7 +8,7 @@ import Histories from '../containers/Histories';
 import Notifications from '../containers/Notifications';
 import HelpCentre from '../containers/HelpCentre';
 import PackageRegister from '../containers/PackageRegister';
-import DetailItem from '../components/HistoryItem/DetailItem';
+import HistoryItems from '../containers/HistoryItems';
 import HelpCentreItem from '../components/HelpCentreItem';
 import Login from '../containers/Login';
 import Register from '../containers/Register';
@@ -21,8 +21,8 @@ const MainNavigator = DrawerNavigator({
     Histories: { 
         screen: Histories
     },  
-    DetailItem: { 
-        screen: DetailItem
+    HistoryItems: { 
+        screen: HistoryItems
     }, 
     Notifications: { 
         screen: Notifications

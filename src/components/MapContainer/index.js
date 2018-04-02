@@ -65,20 +65,46 @@ class MapContainer extends Component {
         //push notification
         pushNotification = () => {
             let pickedPackage = '';
+            const array = [];
+            console.log(array);
             AsyncStorage.getItem('user_info', (error, result) => {
                 this.setState({ id: JSON.parse(result).user_id });
-                firebase.database().ref(`package/package-owner/${this.state.id}`)
-                .on('child_added', (snapshot) => {
+                const ref = firebase.database().ref(`package/package-owner/${this.state.id}`);
+                ref.on('child_added', snapshot => {
+                        pickedPackage = snapshot.val();
+                        array.push(pickedPackage);
+                        console.log(array);
+                        if (pickedPackage.status === 2 && pickedPackage.is_shown === 1) {
+                            PushNotification.localNotification({
+                                title: `Your package: ${pickedPackage.id} has been picked up! `,
+                                message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
+                                playSound: true,
+                                soundName: 'default',
+                                userInfo: { id: `${pickedPackage.id}` }
+                            });
+                            ref.off();
+                            ref.child(`${pickedPackage.id}`).update({
+                                is_shown: 0
+                            });
+                            ref.off();
+                        }
+                });
+                ref.on('child_changed', snapshot => {
                     pickedPackage = snapshot.val();
-                    PushNotification.localNotification({
-                        title: `Your package: ${pickedPackage.id} has been picked up! `,
-                        message: ` By shipper: ${pickedPackage.shipper_id} \n.
-                        Destination: ${pickedPackage.destination_address}`,
-                        playSound: true,
-                        soundName: 'default',
-                        userInfo: { id: `${pickedPackage.id}` }
-                    });
-              });
+                    if (pickedPackage.status === 4 && pickedPackage.is_shown === 1) {
+                        PushNotification.localNotification({
+                            title: `Your package: ${pickedPackage.id} has been delivered successfully! `,
+                            message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
+                            playSound: true,
+                            soundName: 'default',
+                            userInfo: { id: `${pickedPackage.id}` }
+                        });
+                        ref.child(`${pickedPackage.id}`).update({
+                            is_shown: 0
+                        });
+                        ref.off();
+                    }
+                });
             });
         }
            

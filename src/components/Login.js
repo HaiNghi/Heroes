@@ -90,7 +90,7 @@ class Login extends Component {
                                 full success 
                                 style={LoginFormStyle.buttonStyle}
                                 /* onPress={() => this.props.navigation.navigate('Home')}  */
-                                onPress={() => this.login()}
+                                onPress={() => this.login()} 
                             >
                                 <Text>SIGN IN </Text>
                             </Button>

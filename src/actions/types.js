@@ -22,3 +22,7 @@ export const LOGIN_SUCCESS = 'login_success';
 export const LOGIN_FAIL = 'login_fail';
 export const DISABLE_MODAL = 'disable_modal';
 export const LOAD_SPINNER = 'load_spinner';
+export const VERIFY_CODE_SUCCESS = 'verify_code_success';
+export const VERIFY_CODE_FAIL = 'verify_code_fail';
+export const GET_HISTORY_LIST = 'get_history_list';
+export const GET_HISTORY_DETAIL = 'get_history_detail';

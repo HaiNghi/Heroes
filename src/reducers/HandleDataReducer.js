@@ -8,7 +8,12 @@ import {
     GET_NORMAL_PACKAGE,
     GET_OPTIONAL_PACKAGE,
     LOADING,
-    UNLOAD
+    UNLOAD,
+    VERIFY_CODE_SUCCESS,
+    VERIFY_CODE_FAIL,
+    DISABLE_MODAL,
+    GET_HISTORY_LIST,
+    GET_HISTORY_DETAIL
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -21,7 +26,12 @@ const INITIAL_STATE = {
     showPrice: false,
     price: '',
     normalPackageList: [],
-    optionalPackageList: []
+    optionalPackageList: [],
+    message: '',
+    verifySuccess: false,
+    verifyFail: false,
+    historyList: [],
+    historyDetail: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -70,10 +80,33 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state,
                     showSpinner: !state.showSpinner,
             };
-        case UNLOAD: 
-            console.log(state.showSpinner);
+        case UNLOAD: {
             return { ...state,
-                    showSpinner: false
+                showSpinner: false
+            };
+        }
+        case DISABLE_MODAL: 
+            return { ...state,
+                    verifySuccess: false,
+                    verifyFail: false
+            };
+        case VERIFY_CODE_SUCCESS:
+            return { ...state,
+                    verifySuccess: true,
+                    message: action.payload
+            };
+        case VERIFY_CODE_FAIL:
+            return { ...state,
+                    verifyFail: true,
+                    message: action.payload
+            };
+        case GET_HISTORY_LIST: 
+            return { ...state,
+                    historyList: action.payload
+            };
+        case GET_HISTORY_DETAIL: 
+            return { ...state,
+                    historyDetail: action.payload
             };
         default:
             return state;

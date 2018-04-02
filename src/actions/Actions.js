@@ -18,7 +18,12 @@ import {
     GET_NORMAL_PACKAGE,
     GET_OPTIONAL_PACKAGE,
     LOADING,
-    UNLOAD
+    UNLOAD,
+    VERIFY_CODE_FAIL,
+    VERIFY_CODE_SUCCESS,
+    DISABLE_MODAL,
+    GET_HISTORY_LIST,
+    GET_HISTORY_DETAIL
 } from './types';
 
 export const getCurrentLocation = () => {
@@ -183,3 +188,39 @@ export const unload = () => {
         type: UNLOAD
     };
 };
+export const verifyCodeResult = (result, type) => {
+    return (dispatch) => {
+        dispatch(loading());
+        if (type === 'success') {
+            setTimeout(() => dispatch({
+                type: VERIFY_CODE_SUCCESS,
+                payload: result
+            }), 500);
+        } else {
+            setTimeout(() => dispatch({
+                type: VERIFY_CODE_FAIL,
+                payload: result
+            }), 500);
+        }
+    };
+};
+export const closeModal = () => {
+    return {
+        type: DISABLE_MODAL
+    };
+};
+
+export const getHistoryList = (result) => {
+    return {
+        type: GET_HISTORY_LIST,
+        payload: result
+    };
+};
+
+export const getHistoryDetail = (result) => {
+    return {
+        type: GET_HISTORY_DETAIL,
+        payload: result
+    };
+};
+

@@ -1,22 +1,23 @@
 import { connect } from 'react-redux';
 
 import Histories from '../components/Histories';
-import {} from '../actions';
+import {
+    loading,
+    getHistoryList
+} from '../actions';
+import { processGettingHistoryList } from '../api/api';
 
-// function mapStateToProps(state) {
-//     return {
-//         region: state.map.region,
-//         inputData: state.map.inputData || {},
-//         resultTypes: state.map.resultTypes || {},
-//         predictions: state.map.predictions || [],
-//         pickUp: state.map.pickUp,
-//         dropOff: state.map.dropOff,
-//         pickUpRegion: state.map.pickUpRegion || {},
-//         nextRegion: state.map.nextRegion || {},
-//         currentLocation: state.map.currentLocation,
-//         arrayMarker: state.map.arrayMarker,
-//         deleted: state.map.deleted
-//     };
-// }
+const mapStateToProps = (state) => ({
+    historyList: state.package.historyList
+});
 
-export default connect()(Histories);
+const mapDispatchToProps = (dispatch) => ({
+    loading: () => {
+        dispatch(loading());
+    },
+    getHistoryList: () => {
+       processGettingHistoryList(dispatch, getHistoryList);
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Histories);

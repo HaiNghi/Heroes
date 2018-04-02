@@ -4,16 +4,24 @@ import { Container, Left, Right, Button, Text, Content, View } from 'native-base
 import styles from './HistoryItemStyle';
 /* eslint-disable global-require */
 
-const HistoryItem = () => {
+const HistoryItem = ({ status, date, pickUpLocationAddress, destinationAddress }) => {
+    let specificStatus;
+    switch (status) {
+        case 1: { specificStatus = 'Waiting'; break; }
+        case 2: { specificStatus = 'Picked up'; break; }
+        case 3: { specificStatus = 'Delivering'; break; }
+        case 4: { specificStatus = 'Complete'; break; }
+        default: break;
+    }
     return (
         <Container style={styles.containerStyle}>
             <Content>
                 <View style={styles.statusStyle}>
                     <Left>
-                        <Button small primary disabled><Text>Canceled</Text></Button>
+                        <Button small primary disabled><Text>{specificStatus}</Text></Button>
                     </Left>
                     <Right>
-                        <Text style={{ fontSize: 10, fontWeight: 'bold' }}>Feb 22, 2018, 5:04 PM</Text>
+                        <Text style={{ fontSize: 10, fontWeight: 'bold' }}>{date}</Text>
                     </Right>
                 </View>
                 <View style={styles.locationViewStyle} >
@@ -21,14 +29,19 @@ const HistoryItem = () => {
                         source={require('../image/placeholder.png')}
                         style={styles.iconStyle}
                     />
-                    <Text style={styles.addressStyle} >K64/21 Ngoc Han</Text>
+                    <View style={{ flexWrap: 'wrap', flex: 1 }}>
+                        <Text style={styles.addressStyle} >{pickUpLocationAddress}</Text>
+                    </View>
+                    
                 </View>
                 <View style={styles.locationViewStyle} >
                     <Image 
                         source={require('../image/destination.png')}
                         style={styles.iconStyle}
                     />
-                    <Text style={styles.addressStyle} >K81 Ngo Thi Nham</Text>
+                    <View style={{ flexWrap: 'wrap', flex: 1 }}>
+                        <Text style={styles.addressStyle} >{destinationAddress}</Text>
+                    </View>
                 </View>
             </Content>
         </Container>

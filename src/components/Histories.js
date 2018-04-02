@@ -4,8 +4,11 @@ import { HeaderBase } from './common';
 import HistoryItem from './HistoryItem';
 
 class Histories extends Component {
-    onChangePage() {
-        this.props.navigation.navigate('DetailItem');
+    componentDidMount() {
+        this.props.getHistoryList();
+    }
+    navigateToScreen = (historyId) => {
+        this.props.navigation.navigate('HistoryItems', { id: historyId });
     }
     render() {
         return (
@@ -13,12 +16,20 @@ class Histories extends Component {
                 <HeaderBase headerText='History' navigation={this.props.navigation} />
                 <Content>
                     <List>
-                        <ListItem onPress={() => this.onChangePage()}>
-                            <HistoryItem />
-                        </ListItem>
-                        <ListItem>
-                            <HistoryItem />
-                        </ListItem>
+                        {
+                            this.props.historyList.map((item) => {
+                                return (
+                                    <ListItem onPress={() => this.navigateToScreen(item.id)} key={item.id}>
+                                        <HistoryItem 
+                                            pickUpLocationAddress={item.pickup_location_address}
+                                            destinationAddress={item.destination_address}
+                                            status={item.status}
+                                            date={item.created_at}
+                                        />
+                                    </ListItem>
+                                );
+                            })
+                        }
                     </List>
                 </Content>
             </Container>
