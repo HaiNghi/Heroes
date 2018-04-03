@@ -26,3 +26,4 @@ export const VERIFY_CODE_SUCCESS = 'verify_code_success';
 export const VERIFY_CODE_FAIL = 'verify_code_fail';
 export const GET_HISTORY_LIST = 'get_history_list';
 export const GET_HISTORY_DETAIL = 'get_history_detail';
+export const RATE_RATING = 'rate_rating';

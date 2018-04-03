@@ -13,7 +13,8 @@ import {
     VERIFY_CODE_FAIL,
     DISABLE_MODAL,
     GET_HISTORY_LIST,
-    GET_HISTORY_DETAIL
+    GET_HISTORY_DETAIL,
+    RATE_RATING
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -31,7 +32,8 @@ const INITIAL_STATE = {
     verifySuccess: false,
     verifyFail: false,
     historyList: [],
-    historyDetail: {}
+    historyDetail: {},
+    ratingSuccess: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -107,6 +109,10 @@ export default (state = INITIAL_STATE, action) => {
         case GET_HISTORY_DETAIL: 
             return { ...state,
                     historyDetail: action.payload
+            };
+        case RATE_RATING: 
+            return { ...state,
+                ratingSuccess: !state.ratingSuccess
             };
         default:
             return state;

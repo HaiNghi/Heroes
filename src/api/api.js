@@ -198,3 +198,31 @@ export const processGettingHistoryDetail = (dispatch, getHistoryDetail, id) => {
                 Alert.alert(error.message);
         });   
 };
+
+export const processRating = (dispatch, rateShipper, historyId, shipperRating, comment) => {
+        console.log(historyId, shipperRating, comment);
+        let params = {};
+        if (comment === '') {
+                params = {
+                        request_ship_id: historyId,
+                        rating: shipperRating
+                };
+        } else {
+                params = {
+                        request_ship_id: historyId,
+                        rating: shipperRating,
+                        package_owner_comment: comment
+                };
+        }
+        console.log(params);
+        axios.post(`${baseURL}/api/requestShips/rating`, 
+                params, { headers: { Authorization: `Bearer ${user.token}` } }
+        )
+        .then((response) => {
+                console.log(response);
+                dispatch(rateShipper());
+        })
+        .catch((error) => {
+                Alert.alert(error.message);
+        });
+};

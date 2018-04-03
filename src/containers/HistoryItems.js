@@ -5,16 +5,18 @@ import {
     loading,
     verifyCodeResult,
     closeModal,
-    getHistoryDetail
+    getHistoryDetail,
+    rateShipper
 } from '../actions';
-import { processVerifyingOTPCode, processGettingHistoryDetail } from '../api/api';
+import { processVerifyingOTPCode, processGettingHistoryDetail, processRating } from '../api/api';
 
 const mapStateToProps = (state) => ({
     showSpinner: state.package.showSpinner,
     message: state.package.message,
     verifySuccess: state.package.verifySuccess,
     verifyFail: state.package.verifyFail,
-    historyDetail: state.package.historyDetail 
+    historyDetail: state.package.historyDetail, 
+    ratingSuccess: state.package.ratingSuccess
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -29,6 +31,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     getHistoryDetail: (id) => {
         processGettingHistoryDetail(dispatch, getHistoryDetail, id);
+    },
+    rateShipper: (historyId, rating, comment) => {
+        processRating(dispatch, rateShipper, historyId, rating, comment);
+    },
+    closeRatingSuccessModal: () => {
+        dispatch(rateShipper());
     }
 });
 

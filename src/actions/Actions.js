@@ -23,7 +23,8 @@ import {
     VERIFY_CODE_SUCCESS,
     DISABLE_MODAL,
     GET_HISTORY_LIST,
-    GET_HISTORY_DETAIL
+    GET_HISTORY_DETAIL,
+    RATE_RATING
 } from './types';
 
 export const getCurrentLocation = () => {
@@ -221,6 +222,12 @@ export const getHistoryDetail = (result) => {
     return {
         type: GET_HISTORY_DETAIL,
         payload: result
+    };
+};
+
+export const rateShipper = () => {
+    return {
+        type: RATE_RATING
     };
 };
 
