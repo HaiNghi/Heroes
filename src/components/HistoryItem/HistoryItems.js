@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, TextInput } from 'react-native';
+import { Image, TextInput, KeyboardAvoidingView } from 'react-native';
 import { Container, Content, Card, CardItem, 
         Text, Left, Thumbnail, Body, View, Right, Button
 } from 'native-base';
@@ -21,7 +21,9 @@ class HistoryItems extends Component {
             showComment: false,
             rating: 0,
             comment: '',
-            showSuccessModal: false
+            showSuccessModal: false,
+            showCancelTripModal: false,
+            showCancelTripSuccessModal: false
         };
     }
     componentDidMount() {
@@ -40,6 +42,11 @@ class HistoryItems extends Component {
         if (nextProps.ratingSuccess !== this.props.ratingSuccess && nextProps.ratingSuccess) {
                 this.setState({ showSuccessModal: true });
                 // this.props.getHistoryDetail(this.props.navigation.state.params.id);
+        }
+
+        console.log(nextProps.cancelingTripSuccess);
+        if (nextProps.cancelingTripSuccess !== this.props.cancelingTripSuccess && nextProps.cancelingTripSuccess) {
+            this.setState({ showCancelTripSuccessModal: true });
         }
     }
     onCheckCode = (code) => {
@@ -65,6 +72,11 @@ class HistoryItems extends Component {
         this.setState({ showSuccessModal: false });
         this.props.closeRatingSuccessModal();
         this.props.getHistoryDetail(this.props.navigation.state.params.id);
+    }
+    onCancelTrip = () => {
+        this.setState({ showCancelTripModal: false }, () => {
+            this.props.cancelTrip(this.props.navigation.state.params.id);
+        });
     }
     disableModal = (type) => {
         this.props.disableModal();
@@ -170,27 +182,14 @@ class HistoryItems extends Component {
                                     </Right>
                                 </CardItem>
                             </Card>
+
                         }
-                        {
-                            (historyDetail.status < 3) &&
-                            <Card>
-                                <Text style={styles.labelStyle}>OTP CODE: </Text>
-                                <CardItem>
-                                    <CodeInput
-                                            ref="codeInputRef2"
-                                            keyboardType="numeric"
-                                            codeLength={4}
-                                            compareWithCode='1234'
-                                            autoFocus={false}
-                                            inactiveColor='#000000'
-                                            activeColor='#ff5e3a'
-                                            size={40}
-                                            codeInputStyle={{ fontWeight: '800' }}
-                                            onFulfill={(isvalid, code) => this.onCheckCode(code)}
-                                    />
-                                </CardItem>
-                            </Card>
+                        { 
+                            (this.props.historyDetail.status === 2 || this.props.historyDetail.status === 1) &&
+                            <Button full style={{ marginTop: 10 }} onPress={() => this.setState({ showCancelTripModal: true })}><Text>Cancel trip</Text></Button>
                         }
+                        
+                        
                         {
                             (this.props.historyDetail.status === 4 && this.props.historyDetail.shipper_rating !== null) &&
                             <View style={{ flex: 2 / 5 }}>
@@ -209,96 +208,131 @@ class HistoryItems extends Component {
                         }
                     
                 </Content>
+                
                 <Modal isVisible={this.props.showSpinner}>
                         <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
                             <Spinner />
                         </View>
                 </Modal> 
 
-                <Modal isVisible={this.props.verifyFail} >
-                    <View style={styles.innerContainer}>
-                        <Image 
-                            source={require('../image/warning.png')}
-                            style={styles.imageStyle}
-                        />
-                        <Text style={styles.modalText}>{this.props.message}</Text>
-                        <SubmitButton onPress={() => this.disableModal('fail')}>
-                            DISMISS
-                        </SubmitButton> 
-                    </View>
-                </Modal>
-
-                <Modal isVisible={this.props.verifySuccess} >
-                    <View style={styles.innerContainer}>
-                        <Image 
-                            source={require('../image/checked.png')}
-                            style={styles.imageStyle}
-                        />
-                        <Text style={styles.modalText}>{this.props.message}</Text>
-                        <SubmitButton onPress={() => this.disableModal('success')}>
-                            DISMISS
-                        </SubmitButton> 
-                    </View>
-                </Modal>
+                
                 <Modal isVisible={this.state.showSuccessModal}>
                     <View style={{ flex: 1 / 5 }}>
-                    <Card>
-                        <CardItem>
-                            <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                <Image 
-                                    source={require('../image/stars.png')}
-                                    style={styles.imageStyle}
-                                />
-                                <Text style={[styles.labelStyle, { textAlign: 'center', margin: 10 }]}>Thank you for rating. Enjoy your day!</Text>
-                                <Button 
-                                    full style={{ backgroundColor: 'green' }}
-                                    onPress={() => this.onDismiss()}
-                                >
-                                    <Text>DISMISS</Text>
-                                </Button>
-                            </View>
-                            
-                        </CardItem>
-                    </Card>
+                        <Card>
+                            <CardItem>
+                                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                    <Image 
+                                        source={require('../image/stars.png')}
+                                        style={styles.imageStyle}
+                                    />
+                                    <Text style={[styles.labelStyle, { textAlign: 'center', margin: 10 }]}>Thank you for rating. Enjoy your day!</Text>
+                                    <Button 
+                                        full style={{ backgroundColor: 'green' }}
+                                        onPress={() => this.setState({ showCancelTripModal: true })}
+                                    >
+                                        <Text>DISMISS</Text>
+                                    </Button>
+                                </View>
+                                
+                            </CardItem>
+                        </Card>
                        
                     </View>
                 </Modal>
 
-                <Modal isVisible={this.state.showRatingModal}>
-                    <View style={{ flex: 1 / 5 }}>
+                <Modal isVisible={this.state.showCancelTripModal}>
+                    <View style={{ flex: 1 / 5, justifyContent: 'center', alignItems: 'center' }}>
                         <Card>
-                            <Text style={[styles.labelStyle, { textAlign: 'center', margin: 10 }]}>Thank you for using our service. Please help us to improve the quality by rating Shipper!</Text>
                             <CardItem>
-                                <Left>
-                                    <Thumbnail source={require('../image/user.png')} />
-                                    <Body>
-                                        <Text>{historyDetail.first_name} {historyDetail.last_name}</Text>
-                                    </Body>
-                                </Left>
-                                <Right>
-                                    <StarRating
-                                        disabled={false}
-                                        maxStars={5}
-                                        rating={this.state.rating}
-                                        starSize={30}
-                                        fullStarColor='#ff5e3a'
-                                        selectedStar={(rating) => this.onStarRatingPress(rating)}
-                                    />
-                                </Right>
+                                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                    <Text style={[styles.labelStyle, { textAlign: 'center', margin: 15 }]}>Do you want to cancel this trip?</Text>
+                                    <Button 
+                                        full success
+                                        onPress={() => this.onCancelTrip()}
+                                    >
+                                        <Text>OK</Text>
+                                    </Button>
+                                    <Button 
+                                        full light
+                                        onPress={() => this.setState({ showCancelTripModal: false })}
+                                    >
+                                        <Text>DISMISS</Text>
+                                    </Button>
+                                </View>
+                                
                             </CardItem>
-                            {
-                                (this.state.showComment) &&
-                                <CardItem>
-                                    <View style={{ flex: 1, flexDirection: 'column' }}>
-                                        <TextInput
-                                            style={{ height: 80, borderColor: 'gray', borderWidth: 1, marginBottom: 10, fontSize: 15 }}
-                                            multiline
-                                            editable
-                                            maxLength={500}
-                                            placeholder="Do you have recommend for this shipper?"
-                                            onChangeText={(text) => this.setState({ comment: text })}
-                                            value={this.state.comment}
-                                        />
+                        </Card>
+                    </View>
+                </Modal>
+
+                <Modal isVisible={this.state.showCancelTripSuccessModal}>
+                    <View style={{ flex: 1 / 5, justifyContent: 'center', alignItems: 'center' }}>
+                        <Card>
+                            <CardItem>
+                                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                    <Text style={[styles.labelStyle, { textAlign: 'center', margin: 10 }]}>{this.props.message}</Text>
+                                    <Button 
+                                        full style={{ backgroundColor: 'green' }}
+                                        onPress={() => { 
+                                                        this.setState({ showCancelTripSuccessModal: false }); 
+                                                        this.props.navigation.navigate('Histories'); 
+                                                        }
+                                                    }
+                                    >
+                                        <Text>DISMISS</Text>
+                                    </Button>
+                                </View>
+                                
+                            </CardItem>
+                        </Card>
+                    </View>
+                </Modal>
+
+                <Modal 
+                    isVisible={this.state.showRatingModal} 
+                    animationIn='slideInUp'
+                    avoidKeyboard
+                >
+                    <View 
+                        style={{ flex: 1 / 5, margin: 10 }}
+                    >
+                        
+                        <Card>
+                        <Text style={[styles.labelStyle, { textAlign: 'center', margin: 10 }]}>Thank you for using our service. Please help us to improve the quality by rating Shipper!</Text>
+                        <CardItem>
+                            <Left>
+                                <Thumbnail source={require('../image/user.png')} />
+                                <Body>
+                                    <Text>{historyDetail.first_name} {historyDetail.last_name}</Text>
+                                </Body>
+                            </Left>
+                            <Right style={{ marginLeft: 10 }}>
+                                <StarRating
+                                    disabled={false}
+                                    maxStars={5}
+                                    rating={this.state.rating}
+                                    starSize={30}
+                                    fullStarColor='#ff5e3a'
+                                    selectedStar={(rating) => this.onStarRatingPress(rating)}
+                                />
+                            </Right>
+                        </CardItem>
+                        {
+                            (this.state.showComment) &&
+                            <CardItem>
+                                <View 
+                                    style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}
+                                >
+                                    <TextInput
+                                        style={{ height: 80, borderColor: 'gray', borderWidth: 1, marginBottom: 10, fontSize: 15 }}
+                                        multiline
+                                        maxLength={1000}
+                                        placeholder="Do you have recommend for this shipper?"
+                                        onChangeText={(text) => this.setState({ comment: text })}
+                                        value={this.state.comment}
+                                        returnKeyType='done'
+                                        blurOnSubmit
+                                    />
                                     <Button 
                                         full 
                                         style={{ backgroundColor: '#ff5a3e' }} 
@@ -306,10 +340,10 @@ class HistoryItems extends Component {
                                     >
                                         <Text>SUBMIT</Text>
                                     </Button>
-                                    </View>
-                                </CardItem>
-                            }
-                        </Card>
+                                </View>
+                            </CardItem>
+                        }
+                    </Card>
                     </View>
                 </Modal>
             </Container>

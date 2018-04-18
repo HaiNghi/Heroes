@@ -8,7 +8,7 @@ class Histories extends Component {
         this.props.getHistoryList();
     }
     navigateToScreen = (historyId) => {
-        this.props.navigation.navigate('HistoryItems', { id: historyId });
+        this.props.navigation.navigate('HistoryItems', { id: historyId, refreshList: this.props.getHistoryList() });
     }
     render() {
         return (

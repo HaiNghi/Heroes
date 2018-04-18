@@ -60,10 +60,10 @@
  [RCTPushNotificationManager didFailToRegisterForRemoteNotificationsWithError:error];
 }
 // Required for the localNotification event.
-// - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-// {
-//  [RCTPushNotificationManager didReceiveLocalNotification:notification];
-// }
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+ [RCTPushNotificationManager didReceiveLocalNotification:notification];
+}
 - (void)userNotificationCenter:(UNUserNotificationCenter* )center willPresentNotification:(UNNotification* )notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler 
 {
     completionHandler(UNNotificationPresentationOptionAlert);

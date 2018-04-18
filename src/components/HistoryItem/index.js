@@ -7,10 +7,11 @@ import styles from './HistoryItemStyle';
 const HistoryItem = ({ status, date, pickUpLocationAddress, destinationAddress }) => {
     let specificStatus;
     switch (status) {
+        case 0: { specificStatus = 'Canceled'; break; }
         case 1: { specificStatus = 'Waiting'; break; }
         case 2: { specificStatus = 'Picked up'; break; }
         case 3: { specificStatus = 'Delivering'; break; }
-        case 4: { specificStatus = 'Complete'; break; }
+        case 4: { specificStatus = 'Completed'; break; }
         default: break;
     }
     return (

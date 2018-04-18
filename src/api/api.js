@@ -3,11 +3,10 @@ import axios from 'axios';
 
 // const baseURL = 'http://127.0.0.1:8000';
 // const baseURL = 'http://192.168.21.181:8000';
-const baseURL = 'http://ec2-34-231-21-217.compute-1.amazonaws.com:8000';
+// const baseURL = 'http://ec2-34-231-21-217.compute-1.amazonaws.com:8000';
+const baseURL = 'http://ec2-54-198-63-122.compute-1.amazonaws.com';
 let user = [];
-AsyncStorage.getItem('user_info', (error, result) => {
-        user = JSON.parse(result);
-});
+
 // const baseURL = 'http://ec2-34-231-21-217.compute-1.amazonaws.com:8000';
 export const processLogin = (dispatch, loginSuccess, loginFail, loadSpinner, email, password) => {
         axios.post(`${baseURL}/api/login`, {
@@ -18,6 +17,9 @@ export const processLogin = (dispatch, loginSuccess, loginFail, loadSpinner, ema
                 switch (response.data.data.role_id) {
                         case 3: {
                                 AsyncStorage.setItem('user_info', JSON.stringify(response.data.data));
+                                AsyncStorage.getItem('user_info', (error, result) => {
+                                        user = JSON.parse(result);
+                                });
                                 dispatch(loginSuccess());
                                 break;
                         }
@@ -86,7 +88,7 @@ export const doBookPackage = (dispatch, bookPackage, unload,
                 }
         )
         .then((response) => {
-                if (response.status === 201) {
+                if (response.status === 202) {
                      dispatch(unload());
                      setTimeout(() => dispatch(bookPackage()), 1000);
                 //      dispatch(bookPackage());
@@ -225,4 +227,30 @@ export const processRating = (dispatch, rateShipper, historyId, shipperRating, c
         .catch((error) => {
                 Alert.alert(error.message);
         });
+};
+
+export const processLogOut = (dispatch, logOut) => {
+        axios.get(`${baseURL}/api/logout`, {
+                headers: { Authorization: `Bearer ${user.token}` }
+        })
+        .then((response) => {
+                console.log(response.data);
+                dispatch(logOut());
+        })
+        .catch((error) => {
+                Alert.alert(error.message);
+        });   
+};
+
+export const processCancelingTrip = (dispatch, cancelTrip, id) => {
+        axios.delete(`${baseURL}/api/packageOwner/trip/${id}`,
+                { headers: { Authorization: `Bearer ${user.token}` }
+        })
+        .then((response) => {
+                console.log(response.data);
+                dispatch(cancelTrip(response.data.message));
+        })
+        .catch((error) => {
+                Alert.alert(error.message);
+        });   
 };

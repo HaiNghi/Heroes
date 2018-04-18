@@ -19,12 +19,19 @@ export default class App extends Component {
       // projectId: 'heroes-4875a',
       // storageBucket: 'heroes-4875a.appspot.com',
       // messagingSenderId: '434547978170'
-      apiKey: "AIzaSyCmVBNyzhhvvr3pOnGM7eLJvz6i_HcTQsY",
-      authDomain: "heroes-demo-6e61e.firebaseapp.com",
-      databaseURL: "https://heroes-demo-6e61e.firebaseio.com",
-      projectId: "heroes-demo-6e61e",
-      storageBucket: "heroes-demo-6e61e.appspot.com",
-      messagingSenderId: "124925794813"
+      // apiKey: "AIzaSyCmVBNyzhhvvr3pOnGM7eLJvz6i_HcTQsY",
+      // authDomain: "heroes-demo-6e61e.firebaseapp.com",
+      // databaseURL: "https://heroes-demo-6e61e.firebaseio.com",
+      // projectId: "heroes-demo-6e61e",
+      // storageBucket: "heroes-demo-6e61e.appspot.com",
+      // messagingSenderId: "124925794813"
+
+      apiKey: 'AIzaSyDVpmneY0JvpKS9fBmr5gx3M58DdE7ThRg',
+      authDomain: 'heroes-demo2.firebaseapp.com',
+      databaseURL: 'https://heroes-demo2.firebaseio.com',
+      projectId: 'heroes-demo2',
+      storageBucket: 'heroes-demo2.appspot.com',
+      messagingSenderId: '709191546348'
     };
     firebase.initializeApp(config);
   }

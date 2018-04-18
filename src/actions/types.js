@@ -27,3 +27,5 @@ export const VERIFY_CODE_FAIL = 'verify_code_fail';
 export const GET_HISTORY_LIST = 'get_history_list';
 export const GET_HISTORY_DETAIL = 'get_history_detail';
 export const RATE_RATING = 'rate_rating';
+export const LOG_OUT = 'log_out';
+export const CANCEL_TRIP = 'cancel_trip';

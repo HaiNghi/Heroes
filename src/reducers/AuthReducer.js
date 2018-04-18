@@ -4,7 +4,8 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOAD_SPINNER,
-    DISABLE_MODAL
+    DISABLE_MODAL,
+    LOG_OUT
 } from '../actions/types';
  
 const INITIAL_STATE = { 
@@ -16,6 +17,7 @@ const INITIAL_STATE = {
      fail: false,
      errorCode: '',
      showModal: false,
+     logOutSuccess: false
 };
  
 export default (state = INITIAL_STATE, action) => {
@@ -53,6 +55,11 @@ export default (state = INITIAL_STATE, action) => {
                      showModal: false,
                      password: ''
              };
+         }
+         case LOG_OUT: {
+             return { ...INITIAL_STATE,
+                    logOutSuccess: true
+            };
          }
          default:
              return state;

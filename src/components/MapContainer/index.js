@@ -11,12 +11,29 @@ import { SubmitButton } from '../common';
 import styles from './MapContainerStyle';
 
 /* eslint-disable global-require */
+let user = [];
+AsyncStorage.getItem('user_info', (error, result) => {
+    user = JSON.parse(result);
+});
 pushNotifications.configure();
 
 class MapContainer extends Component {
         constructor(props) {
             super(props);
             this.state = { modalWarningShow: false, id: 0 };
+            PushNotification.configure({
+                onNotification: (notification) => {
+                    console.log(notification);
+                    this.props.navigation.navigate('HistoryItems', { id: notification.data.id });
+                },
+                permissions: {
+                    alert: true,
+                    badge: true,
+                    sound: true
+                },
+                popInitialNotification: true,
+                requestPermissions: true
+            });
         }
         componentDidMount() {
             this.pushNotification();
@@ -65,46 +82,33 @@ class MapContainer extends Component {
         //push notification
         pushNotification = () => {
             let pickedPackage = '';
-            const array = [];
-            console.log(array);
             AsyncStorage.getItem('user_info', (error, result) => {
-                this.setState({ id: JSON.parse(result).user_id });
-                const ref = firebase.database().ref(`package/package-owner/${this.state.id}`);
-                ref.on('child_added', snapshot => {
-                        pickedPackage = snapshot.val();
-                        array.push(pickedPackage);
-                        console.log(array);
-                        if (pickedPackage.status === 2 && pickedPackage.is_shown === 1) {
-                            PushNotification.localNotification({
-                                title: `Your package: ${pickedPackage.id} has been picked up! `,
-                                message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
-                                playSound: true,
-                                soundName: 'default',
-                                userInfo: { id: `${pickedPackage.id}` }
-                            });
-                            ref.off();
-                            ref.child(`${pickedPackage.id}`).update({
-                                is_shown: 0
-                            });
-                            ref.off();
-                        }
-                });
-                ref.on('child_changed', snapshot => {
+                    this.setState({ id: JSON.parse(result).user_id });
+                    user = JSON.parse(result);
+            });
+            const ref = firebase.database().ref(`package-owner/${user.user_id}/notification`);
+            ref.on('child_added', (snapshot) => {
                     pickedPackage = snapshot.val();
-                    if (pickedPackage.status === 4 && pickedPackage.is_shown === 1) {
-                        PushNotification.localNotification({
-                            title: `Your package: ${pickedPackage.id} has been delivered successfully! `,
-                            message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
-                            playSound: true,
-                            soundName: 'default',
-                            userInfo: { id: `${pickedPackage.id}` }
-                        });
-                        ref.child(`${pickedPackage.id}`).update({
-                            is_shown: 0
-                        });
-                        ref.off();
-                    }
-                });
+                    PushNotification.localNotification({
+                        title: `Your package: ${pickedPackage.id} has been picked up! `,
+                        message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
+                        playSound: true,
+                        soundName: 'default',
+                        userInfo: { id: `${pickedPackage.id}` }
+                    });
+                    ref.child(`${pickedPackage.id}`).remove();
+            });
+            ref.on('child_changed', snapshot => {
+                pickedPackage = snapshot.val();
+                console.log(1, pickedPackage);
+                    PushNotification.localNotification({
+                        title: `Your package: ${pickedPackage.id} has been delivered successfully! `,
+                        message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
+                        playSound: true,
+                        soundName: 'default',
+                        userInfo: { id: `${pickedPackage.id}` }
+                    });
+                    ref.child(`${pickedPackage.id}`).remove();
             });
         }
            

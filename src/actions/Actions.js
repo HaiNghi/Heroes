@@ -24,7 +24,8 @@ import {
     DISABLE_MODAL,
     GET_HISTORY_LIST,
     GET_HISTORY_DETAIL,
-    RATE_RATING
+    RATE_RATING,
+    CANCEL_TRIP
 } from './types';
 
 export const getCurrentLocation = () => {
@@ -228,6 +229,13 @@ export const getHistoryDetail = (result) => {
 export const rateShipper = () => {
     return {
         type: RATE_RATING
+    };
+};
+
+export const cancelTrip = (result) => {
+    return {
+        type: CANCEL_TRIP,
+        payload: result
     };
 };
 

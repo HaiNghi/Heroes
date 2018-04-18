@@ -111,7 +111,7 @@ class Login extends Component {
                             <Spinner />
                         </Modal>
                         <Modal isVisible={this.props.showModal}>
-                            <View style={{ margin: 20 , backgroundColor: '#fff', flexWrap: 'wrap', borderRadius: 20 }}>
+                            <View style={{ margin: 20, backgroundColor: '#fff', flexWrap: 'wrap', borderRadius: 20 }}>
                                 <View>
                                     <Text style={{fontWeight: 'bold', textAlign: 'center', fontSize: 20, margin: 15}}>Login Failed!</Text>
                                     <Text note style={{textAlign: 'center', color: '#000', margin: 15, marginTop: 0 }}>Unable to login, either email nor password is uncorrect.</Text>

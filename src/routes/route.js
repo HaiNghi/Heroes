@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import { Root, Icon } from 'native-base';
-import SlideMenu from '../components/SlideMenu';
+import SlideMenu from '../containers/SlideMenu';
 import Home from '../containers/Home';
 import Histories from '../containers/Histories';
 import Notifications from '../containers/Notifications';

@@ -14,7 +14,8 @@ import {
     DISABLE_MODAL,
     GET_HISTORY_LIST,
     GET_HISTORY_DETAIL,
-    RATE_RATING
+    RATE_RATING,
+    CANCEL_TRIP
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -33,11 +34,11 @@ const INITIAL_STATE = {
     verifyFail: false,
     historyList: [],
     historyDetail: {},
-    ratingSuccess: false
+    ratingSuccess: false,
+    cancelingTripSuccess: false
 };
 
 export default (state = INITIAL_STATE, action) => {
-    console.log(action.payload);
     switch (action.type) {
         case GET_DISTANCE_MATRIX: {
             return { ...state, 
@@ -108,11 +109,18 @@ export default (state = INITIAL_STATE, action) => {
             };
         case GET_HISTORY_DETAIL: 
             return { ...state,
-                    historyDetail: action.payload
+                    historyDetail: action.payload,
+                    ratingSuccess: false,
+                    cancelTrip: false
             };
         case RATE_RATING: 
             return { ...state,
                 ratingSuccess: !state.ratingSuccess
+            };
+        case CANCEL_TRIP:
+            return { ...state,
+                cancelingTripSuccess: true,
+                message: action.payload
             };
         default:
             return state;
