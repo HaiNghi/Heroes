@@ -18,12 +18,7 @@ const MainNavigator = DrawerNavigator({
     Home: { 
         screen: Home
     },
-    Histories: { 
-        screen: Histories
-    },  
-    HistoryItems: { 
-        screen: HistoryItems
-    }, 
+    
     Notifications: { 
         screen: Notifications
     },  
@@ -53,6 +48,12 @@ const AppNavigator = StackNavigator({
     MainNavigator: { 
         screen: MainNavigator 
     },
+    Histories: { 
+        screen: Histories
+    },  
+    HistoryItems: { 
+        screen: HistoryItems
+    }, 
     PackageRegister: { 
         screen: PackageRegister 
     },

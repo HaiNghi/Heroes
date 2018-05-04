@@ -4,18 +4,16 @@ import { View, InputGroup, Input, Icon, Button } from 'native-base';
 import styles from './SearchBoxStyles';
 
  const SearchBox = ({ 
-                            // getInputData, 
-                            toogleSearchResult, 
-                            getAddressPredictions, 
-                            // resultTypes, 
-                            // inputData, 
-                            region,
-                            getPickUp,
-                            getDropOff,
-                            pickUp,
-                            dropOff,
-                            deleteResultAddress
-                        }) => {
+                        toogleSearchResult, 
+                        getAddressPredictions, 
+                        region,
+                        getPickUp,
+                        getDropOff,
+                        pickUp,
+                        dropOff,
+                        deleteResultAddress
+                    }) => {
+    //input pick-up location                    
     function handleGetPickUp(text) {
         getPickUp(text);
         if (text !== '') {
@@ -23,7 +21,7 @@ import styles from './SearchBoxStyles';
             getAddressPredictions(text, { region });
         }  
     }
-
+    //input drop-off location  
     function handleGetDropOff(text) {
         getDropOff(text);
         if (text !== '') {
@@ -31,9 +29,8 @@ import styles from './SearchBoxStyles';
             getAddressPredictions(text, { region });
         }  
     }
-
+    //delete input field when clicking delete button
     function deleteAddress(text) {
-        // alert("OK");
         deleteResultAddress(text);
         Keyboard.dismiss();
     }

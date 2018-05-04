@@ -1,15 +1,8 @@
 import { connect } from 'react-redux';
 
 import Login from '../components/Login';
-import {
-    inputEmail,
-    inputPassword,
-    loginSuccess,
-    loginFail,
-    loadSpinner,
-    disableModal
-} from '../actions';
-import { processLogin } from '../api/api';
+import * as Actions from '../actions';
+import * as API from '../api/api';
 
 const mapStateToProps = (state) => ({
     email: state.auth.email,
@@ -23,19 +16,19 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     inputEmail: (text) => {
-        dispatch(inputEmail(text));
+        dispatch(Actions.inputEmail(text));
     },
     inputPassword: (text) => {
-        dispatch(inputPassword(text));
+        dispatch(Actions.inputPassword(text));
     },
     login: (email, password) => {
-        processLogin(dispatch, loginSuccess, loginFail, loadSpinner, email, password);
+        API.processLogin(dispatch, Actions.loginSuccess, Actions.loginFail, Actions.loadSpinner, email, password);
     },
     loadSpinner: () => {
-        dispatch(loadSpinner());
+        dispatch(Actions.loadSpinner());
     },
     disableModal: () => {
-        dispatch(disableModal());
+        dispatch(Actions.disableModal());
     }
 });
 

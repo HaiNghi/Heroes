@@ -1,12 +1,4 @@
-import { 
-    INPUT_EMAIL,
-    INPUT_PASSWORD,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOAD_SPINNER,
-    DISABLE_MODAL,
-    LOG_OUT
-} from '../actions/types';
+import * as Types from '../actions/types';
  
 const INITIAL_STATE = { 
      email: '',
@@ -22,41 +14,41 @@ const INITIAL_STATE = {
  
 export default (state = INITIAL_STATE, action) => {
      switch (action.type) {
-         case INPUT_EMAIL:
+         case Types.INPUT_EMAIL:
              return { ...state,
                      email: action.payload,
              };
-         case INPUT_PASSWORD: {
+         case Types.INPUT_PASSWORD: {
              return { ...state,
                  password: action.payload,
                  fail: false
              };
          }
-         case LOGIN_SUCCESS: {
+         case Types.LOGIN_SUCCESS: {
              return { ...state,
                  ...INITIAL_STATE,
                  success: true
              };
          }
-         case LOGIN_FAIL: {
+         case Types.LOGIN_FAIL: {
              return { ...state,
                  fail: true,
                  showModal: true,
                  errorCode: action.payload
              };
          }
-         case LOAD_SPINNER: {
+         case Types.LOAD_SPINNER: {
              return { ...state,
                      loading: !state.loading,
               };
          }
-         case DISABLE_MODAL: {
+         case Types.DISABLE_MODAL: {
              return { ...state,
                      showModal: false,
                      password: ''
              };
          }
-         case LOG_OUT: {
+         case Types.LOG_OUT: {
              return { ...INITIAL_STATE,
                     logOutSuccess: true
             };

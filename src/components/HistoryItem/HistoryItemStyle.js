@@ -1,4 +1,3 @@
-import { Dimensions } from 'react-native';
 
 const styles = {
     containerStyle: {
@@ -67,18 +66,6 @@ const styles = {
         fontWeight: 'bold',
         marginBottom: 15,
         marginTop: 15
-    },
-    // container: {
-    //     position: 'absolute',
-    //     bottom: 0,
-    //     left: 0,
-    //     flex: 1,
-    //     width: Dimensions.get('window').width,
-    //     height: Dimensions.get('window').height,
-    //   },
-    // modalContainer: {
-    //     height: Dimensions.get('window').height * 0.3,
-    //     width: Dimensions.get('window').width,
-    // }
+    }
 };
 export default styles;

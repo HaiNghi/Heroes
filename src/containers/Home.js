@@ -1,17 +1,7 @@
 import { connect } from 'react-redux';
 
 import Home from '../components/Home';
-import {
-    getCurrentLocation, 
-    getInputData, 
-    toogleSearchResult,
-    getAddressPredictions,
-    getSelectedAddress,
-    getPickUp,
-    getDropOff,
-    deleteResultAddress
-} from '../actions';
-
+import * as Actions from '../actions';
 
 const mapStateToProps = (state) => ({
     region: state.map.region,
@@ -28,30 +18,33 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     getCurrentLocation: () => {
-        dispatch(getCurrentLocation());
+        dispatch(Actions.getCurrentLocation());
     },
     getInputData: () => {
-        dispatch(getInputData());
+        dispatch(Actions.getInputData());
     },
     toogleSearchResult: (text) => {
-        dispatch(toogleSearchResult(text));
+        dispatch(Actions.toogleSearchResult(text));
     },
     getAddressPredictions: (text, { region }) => {
-        dispatch(getAddressPredictions(text, { region }));
+        dispatch(Actions.getAddressPredictions(text, { region }));
     },
     getSelectedAddress: (placeID) => {
-        dispatch(getSelectedAddress(placeID));
+        dispatch(Actions.getSelectedAddress(placeID));
     },
     getPickUp: (text) => {
-        dispatch(getPickUp(text));
+        dispatch(Actions.getPickUp(text));
     },
     getDropOff: (text) => {
-        dispatch(getDropOff(text));
+        dispatch(Actions.getDropOff(text));
     },
     deleteResultAddress: (text) => {
-        dispatch(deleteResultAddress(text));
+        dispatch(Actions.deleteResultAddress(text));
     },
-   
+    deleteInput: () => {
+        dispatch(Actions.deleteInput());
+    }
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

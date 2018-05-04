@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, List, ListItem, Text, Content } from 'native-base';
+import { Container, List, ListItem, Content } from 'native-base';
 import { HeaderBase } from './common';
 import HistoryItem from './HistoryItem';
 
@@ -7,8 +7,13 @@ class Histories extends Component {
     componentDidMount() {
         this.props.getHistoryList();
     }
+    //navigate to the other screen
     navigateToScreen = (historyId) => {
-        this.props.navigation.navigate('HistoryItems', { id: historyId, refreshList: this.props.getHistoryList() });
+        this.props.navigation.navigate('HistoryItems', { id: historyId, refreshList: this.refreshList.bind(this) });
+    }
+    //refresh history list
+    refreshList = () => {
+        this.props.getHistoryList();
     }
     render() {
         return (

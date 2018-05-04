@@ -12,6 +12,7 @@ class Login extends Component {
             this.props.navigation.navigate('Home');
         }
     }
+    //validate for email
     validateEmail = (text) => {
         const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (reg.test(text)) {
@@ -19,9 +20,9 @@ class Login extends Component {
         }
         return false;
     }
+    // if valid data, do login function
     login = () => {
         const { email, password } = this.props;
-        
         if (email === '') {
             Alert.alert('Please input email !');
         } else {
@@ -66,7 +67,7 @@ class Login extends Component {
                         <Text style={LoginFormStyle.textStyle}>HEROES comes to you to recover and deliver your package</Text>
                     </View>
                         <Content>
-                            <Body style={{ margin: 20 }}>
+                            <Body style={{ margin: 20, marginTop: 15 }}>
                                 <Item rounded style={LoginFormStyle.inputBackGroundStyle}>
                                     <Input 
                                         placeholder='Email' 
@@ -101,7 +102,7 @@ class Login extends Component {
                             >
                                 <Text style={{ color: 'black' }}>SIGN UP </Text>
                             </Button>
-                            <Button full transparent>
+                            <Button full transparent style={{ bottom: 10 }}>
                                 <Text style={{ color: '#fff' }}>Forgot your password</Text>
                             </Button>
                             </View>

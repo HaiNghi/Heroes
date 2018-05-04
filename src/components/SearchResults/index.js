@@ -4,6 +4,7 @@ import { View, Left, Icon, List, ListItem, Body } from 'native-base';
 import styles from './SearchResultStyle';
 
  const SearchResult = ({ predictions, getSelectedAddress }) => {
+     //get the address selected
     function handleGetSelectedAddress(placeID) {
         getSelectedAddress(placeID);
     }

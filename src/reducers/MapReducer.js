@@ -1,14 +1,5 @@
 import { Dimensions } from 'react-native';
-import { 
-    GET_CURRENT_LOCATION, 
-    GET_INPUT, 
-    TOOGLE_SEARCH_RESULT, 
-    GET_ADDRESS_PREDICTIONS,
-    GET_SELECTED_ADDRESS,
-    GET_PICK_UP,
-    GET_DROP_OFF,
-    DELETE_RESULT_ADDRESS
-} from '../actions/types';
+import * as Types from '../actions/types';
 
 const INITIAL_STATE = { 
     region: {}, 
@@ -35,7 +26,7 @@ const LONGTITUDEDELTA = ASPECT_RATION * LATITUDEDELTA;
 export default (state = INITIAL_STATE, action) => {
     console.log(action);
     switch (action.type) {
-        case GET_CURRENT_LOCATION: {
+        case Types.GET_CURRENT_LOCATION: {
             const LATITUDE = action.payload.coords.latitude;
             const LONGTITUDE = action.payload.coords.longitude;
             return { ...state, 
@@ -63,21 +54,21 @@ export default (state = INITIAL_STATE, action) => {
                 };
             }
            
-        case GET_INPUT:
+        case Types.GET_INPUT:
             return { ...state, 
                     inputData: { [action.payload.key]: action.payload.value
                 }
             };
-        case GET_PICK_UP:
+        case Types.GET_PICK_UP:
             return { ...state, 
                     pickUp: action.payload,
                     region: state.pickUpRegion
             };
-        case GET_DROP_OFF:
+        case Types.GET_DROP_OFF:
             return { ...state, 
                     dropOff: action.payload,
             };
-        case TOOGLE_SEARCH_RESULT: {
+        case Types.TOOGLE_SEARCH_RESULT: {
             console.log(state.resultTypes);
             if (action.payload === 'pickUp') {
                 return { ...state, 
@@ -90,11 +81,11 @@ export default (state = INITIAL_STATE, action) => {
                 };
             }
         }
-        case GET_ADDRESS_PREDICTIONS:
+        case Types.GET_ADDRESS_PREDICTIONS:
             return { ...state, 
                     predictions: action.payload 
             };
-        case GET_SELECTED_ADDRESS: {
+        case Types.GET_SELECTED_ADDRESS: {
             console.log(state.resultTypes.pickUp);
             if (state.resultTypes.pickUp) {
                 return { ...state,
@@ -126,7 +117,7 @@ export default (state = INITIAL_STATE, action) => {
                 };
             }
         }
-        case DELETE_RESULT_ADDRESS: {
+        case Types.DELETE_RESULT_ADDRESS: {
             console.log(state.pickUpRegion);
             if (action.payload === 'pickUp') {
                 return { ...state, 
@@ -149,6 +140,19 @@ export default (state = INITIAL_STATE, action) => {
                 };
             }
         }
+        case Types.DELETE_INPUT: 
+            return { ...state,
+                pickUp: '',
+                dropOff: '',
+                region: state.pickUpRegion,
+                nextRegion: {
+                    latitude: null,
+                    longitude: null,
+                    latitudeDelta: null,
+                    longitudeDelta: null
+                }
+             };
+        
         
         default:
             return state;

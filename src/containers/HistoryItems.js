@@ -1,19 +1,8 @@
 import { connect } from 'react-redux';
 
 import HistoryItems from '../components/HistoryItem/HistoryItems';
-import {
-    loading,
-    verifyCodeResult,
-    closeModal,
-    getHistoryDetail,
-    rateShipper,
-    cancelTrip
-} from '../actions';
-import { processVerifyingOTPCode, 
-        processGettingHistoryDetail, 
-        processRating,
-        processCancelingTrip 
-} from '../api/api';
+import * as Actions from '../actions';
+import * as API from '../api/api';
 
 const mapStateToProps = (state) => ({
     showSpinner: state.package.showSpinner,
@@ -27,26 +16,30 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     loading: () => {
-        dispatch(loading());
+        dispatch(Actions.loading());
     },
     verifyOTPCode: (code, packageId) => {
-        processVerifyingOTPCode(dispatch, verifyCodeResult, code, packageId);
+        API.processVerifyingOTPCode(dispatch, Actions.verifyCodeResult, code, packageId);
     },
     disableModal: () => {
-        dispatch(closeModal());
+        dispatch(Actions.closeModal());
     },
     getHistoryDetail: (id) => {
-        processGettingHistoryDetail(dispatch, getHistoryDetail, id);
+        API.processGettingHistoryDetail(dispatch, Actions.getHistoryDetail, id);
     },
     rateShipper: (historyId, rating, comment) => {
-        processRating(dispatch, rateShipper, historyId, rating, comment);
+        API.processRating(dispatch, Actions.rateShipper, historyId, rating, comment);
     },
     closeRatingSuccessModal: () => {
-        dispatch(rateShipper());
+        dispatch(Actions.rateShipper());
     },
     cancelTrip: (id) => {
-        processCancelingTrip(dispatch, cancelTrip, id);
+        API.processCancelingTrip(dispatch, Actions.cancelTrip, id);
+    },
+    resetCanCelingTripSuccess: () => {
+        dispatch(Actions.resetCanCelingTripSuccess());
     }
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryItems);

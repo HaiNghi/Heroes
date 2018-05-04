@@ -1,39 +1,13 @@
 import RNGooglePlaces from 'react-native-google-places';
 import axios from 'axios';
-import { 
-    GET_CURRENT_LOCATION, 
-    GET_INPUT, 
-    TOOGLE_SEARCH_RESULT,
-    GET_ADDRESS_PREDICTIONS,
-    GET_SELECTED_ADDRESS,
-    GET_PICK_UP,
-    GET_DROP_OFF,
-    DELETE_RESULT_ADDRESS,
-    GET_CUSTOMER_NAME,
-    GET_CUSTOMER_PHONE,
-    BOOK_PACKAGE,
-    GET_DISTANCE_MATRIX,
-    GET_PRICE,
-    DISABLE_PRICE,
-    GET_NORMAL_PACKAGE,
-    GET_OPTIONAL_PACKAGE,
-    LOADING,
-    UNLOAD,
-    VERIFY_CODE_FAIL,
-    VERIFY_CODE_SUCCESS,
-    DISABLE_MODAL,
-    GET_HISTORY_LIST,
-    GET_HISTORY_DETAIL,
-    RATE_RATING,
-    CANCEL_TRIP
-} from './types';
+import * as Types from './types';
 
 export const getCurrentLocation = () => {
     return (dispatch) => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 dispatch({
-                    type: GET_CURRENT_LOCATION,
+                    type: Types.GET_CURRENT_LOCATION,
                     payload: position
                 });
             },
@@ -46,28 +20,28 @@ export const getCurrentLocation = () => {
 
 export const getInputData = (text) => {
     return {
-        type: GET_INPUT,
+        type: Types.GET_INPUT,
         payload: text
     };
 };
 
 export const getPickUp = (text) => {
     return {
-        type: GET_PICK_UP,
+        type: Types.GET_PICK_UP,
         payload: text
     };
 };
 
 export const getDropOff = (text) => {
     return {
-        type: GET_DROP_OFF,
+        type: Types.GET_DROP_OFF,
         payload: text
     };
 };
 
 export const toogleSearchResult = (text) => {
     return {
-        type: TOOGLE_SEARCH_RESULT,
+        type: Types.TOOGLE_SEARCH_RESULT,
         payload: text
     };
 };
@@ -85,7 +59,7 @@ export const getAddressPredictions = (text, { region }) => {
                 radius: 0.01
             }
         ).then((results) => dispatch({
-            type: GET_ADDRESS_PREDICTIONS,
+            type: Types.GET_ADDRESS_PREDICTIONS,
             payload: results
         }))
         .catch((error) => console.log(error.message));
@@ -97,7 +71,7 @@ export const getSelectedAddress = (address) => {
         RNGooglePlaces.lookUpPlaceByID(address)
         .then((results) => {
             dispatch({
-                type: GET_SELECTED_ADDRESS,
+                type: Types.GET_SELECTED_ADDRESS,
                 payload: results
             });
         })
@@ -109,33 +83,33 @@ export const getSelectedAddress = (address) => {
 
 export const deleteResultAddress = (text) => {
     return {
-        type: DELETE_RESULT_ADDRESS,
+        type: Types.DELETE_RESULT_ADDRESS,
         payload: text
     };
 };
 
 export const getCustomerName = (text) => {
     return {
-        type: GET_CUSTOMER_NAME,
+        type: Types.GET_CUSTOMER_NAME,
         payload: text
     };
 };
 
 export const getCustomerPhone = (text) => {
     return {
-        type: GET_CUSTOMER_PHONE,
+        type: Types.GET_CUSTOMER_PHONE,
         payload: text
     };
 };
 export const bookPackage = () => {
     return {
-        type: BOOK_PACKAGE 
+        type: Types.BOOK_PACKAGE 
     };
 };
 
 export const getPrice = (price) => {
     return {
-        type: GET_PRICE,
+        type: Types.GET_PRICE,
         payload: price
     };
 };
@@ -152,7 +126,7 @@ export const getDistanceMatrix = (region, nextRegion) => {
           })
           .then((response) => {
             dispatch({
-                type: GET_DISTANCE_MATRIX,
+                type: Types.GET_DISTANCE_MATRIX,
                 payload: response.data
             });
           });
@@ -161,33 +135,33 @@ export const getDistanceMatrix = (region, nextRegion) => {
 
 export const disablePrice = () => {
     return {
-        type: DISABLE_PRICE
+        type: Types.DISABLE_PRICE
     };
 };
 
 export const getNormalPackage = (list) => {
     return {
-        type: GET_NORMAL_PACKAGE,
+        type: Types.GET_NORMAL_PACKAGE,
         payload: list
     };
 };
 
 export const getOptionalPackage = (list) => {
     return {
-        type: GET_OPTIONAL_PACKAGE,
+        type: Types.GET_OPTIONAL_PACKAGE,
         payload: list
     };
 };
 
 export const loading = () => {
     return {
-        type: LOADING
+        type: Types.LOADING
     };
 };
 
 export const unload = () => {
     return {
-        type: UNLOAD
+        type: Types.UNLOAD
     };
 };
 export const verifyCodeResult = (result, type) => {
@@ -195,12 +169,12 @@ export const verifyCodeResult = (result, type) => {
         dispatch(loading());
         if (type === 'success') {
             setTimeout(() => dispatch({
-                type: VERIFY_CODE_SUCCESS,
+                type: Types.VERIFY_CODE_SUCCESS,
                 payload: result
             }), 500);
         } else {
             setTimeout(() => dispatch({
-                type: VERIFY_CODE_FAIL,
+                type: Types.VERIFY_CODE_FAIL,
                 payload: result
             }), 500);
         }
@@ -208,34 +182,46 @@ export const verifyCodeResult = (result, type) => {
 };
 export const closeModal = () => {
     return {
-        type: DISABLE_MODAL
+        type: Types.DISABLE_MODAL
     };
 };
 
 export const getHistoryList = (result) => {
     return {
-        type: GET_HISTORY_LIST,
+        type: Types.GET_HISTORY_LIST,
         payload: result
     };
 };
 
 export const getHistoryDetail = (result) => {
     return {
-        type: GET_HISTORY_DETAIL,
+        type: Types.GET_HISTORY_DETAIL,
         payload: result
     };
 };
 
 export const rateShipper = () => {
     return {
-        type: RATE_RATING
+        type: Types.RATE_RATING
     };
 };
 
 export const cancelTrip = (result) => {
     return {
-        type: CANCEL_TRIP,
+        type: Types.CANCEL_TRIP,
         payload: result
+    };
+};
+
+export const resetCanCelingTripSuccess = () => {
+    return {
+        type: Types.RESET_CANCEL_TRIP_SUCCESS
+    };
+};
+
+export const deleteInput = () => {
+    return {
+        type: Types.DELETE_INPUT
     };
 };
 

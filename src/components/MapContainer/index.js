@@ -21,6 +21,7 @@ class MapContainer extends Component {
         constructor(props) {
             super(props);
             this.state = { modalWarningShow: false, id: 0 };
+            this.mapRef = null;
             PushNotification.configure({
                 onNotification: (notification) => {
                     console.log(notification);
@@ -37,6 +38,10 @@ class MapContainer extends Component {
         }
         componentDidMount() {
             this.pushNotification();
+        }
+
+        componentWillReceiveProps() {
+            this.mapRef.fitToElements(true);
         }
 
         //unable warning modal
@@ -59,8 +64,8 @@ class MapContainer extends Component {
 
         customAlert(text) {
             Alert.alert(
-                null,
                 `Please input ${text} !`,
+                null,
                 [{ text: 'OK', onPress: () => console.log('OK'), style: 'cancel' }],
                 { cancelable: false }
               );
@@ -70,14 +75,20 @@ class MapContainer extends Component {
         navigateToScreen() {
             if (this.props.pickUp === '') this.customAlert('pick-up location'); 
             else if (this.props.dropOff === '') this.customAlert('drop-off location');
+             else if (this.props.pickUp === this.props.dropOff) this.customAlert(' input different pick-up and drop-off locations');
                 else {
                     this.props.navigation.navigate('PackageRegister', 
                     { pickUpLocationAddress: this.props.pickUp, 
                     dropOffLocationAddress: this.props.dropOff,
                     pickUpCoordinate: this.props.region,
-                    destinationCoordinate: this.props.nextRegion
+                    destinationCoordinate: this.props.nextRegion,
+                    deleteInput: this.deleteInput.bind(this)
                     });
                 }
+        }
+        // delete pickUp and dropOff fields 
+        deleteInput = () => {
+            this.props.deleteInput();
         }
         //push notification
         pushNotification = () => {
@@ -89,26 +100,29 @@ class MapContainer extends Component {
             const ref = firebase.database().ref(`package-owner/${user.user_id}/notification`);
             ref.on('child_added', (snapshot) => {
                     pickedPackage = snapshot.val();
-                    PushNotification.localNotification({
-                        title: `Your package: ${pickedPackage.id} has been picked up! `,
-                        message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
-                        playSound: true,
-                        soundName: 'default',
-                        userInfo: { id: `${pickedPackage.id}` }
-                    });
-                    ref.child(`${pickedPackage.id}`).remove();
-            });
-            ref.on('child_changed', snapshot => {
-                pickedPackage = snapshot.val();
-                console.log(1, pickedPackage);
-                    PushNotification.localNotification({
-                        title: `Your package: ${pickedPackage.id} has been delivered successfully! `,
-                        message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
-                        playSound: true,
-                        soundName: 'default',
-                        userInfo: { id: `${pickedPackage.id}` }
-                    });
-                    ref.child(`${pickedPackage.id}`).remove();
+                    if (pickedPackage.status === 2) {
+                        console.log(1);
+                        PushNotification.localNotification({
+                            title: `Your package: ${pickedPackage.id} has been picked up! `,
+                            message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
+                            playSound: true,
+                            soundName: 'default',
+                            userInfo: { id: `${pickedPackage.id}` }
+                        });
+                        ref.child(`${pickedPackage.id}`).remove();
+                        console.log(2);
+                    } else {
+                        console.log(3);
+                        PushNotification.localNotification({
+                            title: `Your package: ${pickedPackage.id} has been delivered successfully! `,
+                            message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
+                            playSound: true,
+                            soundName: 'default',
+                            userInfo: { id: `${pickedPackage.id}` }
+                        });
+                        console.log(4);
+                        ref.child(`${pickedPackage.id}`).remove();
+                    }
             });
         }
            
@@ -133,6 +147,9 @@ class MapContainer extends Component {
             return (
                 <View style={styles.container}>
                     <MapView
+                        ref={ref => {
+                            this.mapRef = ref;
+                        }}
                         provider={PROVIDER_GOOGLE}
                         style={styles.map}
                         /* ref = {(ref) => {viewMarker(),this.mapRef = ref}}
@@ -145,7 +162,19 @@ class MapContainer extends Component {
                             longitudeDelta: (nextRegion.longitudeDelta === null) ? region.longitudeDelta : 0.04
                         }} 
                         showsUserLocation
+                        followsUserLocation
                     >
+                    {/* {
+                        (this.props.arrayMarker.map((item) => {
+                            return (
+                                <MapView.Marker 
+                                    coordinate={item}
+                                    pinColor='green' 
+                                />
+                            );
+                        }))
+                    } */}
+                   
                     <MapView.Marker 
                         coordinate={region}
                         pinColor='red' 

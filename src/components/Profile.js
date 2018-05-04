@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, View } from 'react-native';
 import { Container } from 'native-base';
+import { HeaderBase } from './common';
 /* eslint-disable global-require */
 
 class Profile extends Component {
@@ -9,6 +10,7 @@ class Profile extends Component {
         return (
             <Container>
                 <View>
+                    <HeaderBase headerText='Profile' />
                     <Image 
                         source={require('./image/view.png')} 
                         style={{    

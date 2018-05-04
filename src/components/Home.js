@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image } from 'native-base';
+import { Container } from 'native-base';
 import MapContainer from './MapContainer';
 import { HeaderForHome } from './common';
 
@@ -22,6 +22,7 @@ class Home extends Component {
                         resultTypes={this.props.resultTypes}
                         predictions={this.props.predictions}
                         inputData={this.props.inputData}
+                        arrayMarker={this.props.arrayMarker}
                         getSelectedAddress={this.props.getSelectedAddress}
                         getPickUp={this.props.getPickUp}
                         getDropOff={this.props.getDropOff}
@@ -33,6 +34,7 @@ class Home extends Component {
                         deleteResultAddress={this.props.deleteResultAddress}
                         deleted={this.props.deleted}
                         navigation={this.props.navigation}
+                        deleteInput={this.props.deleteInput}
                     />
                 }
                 

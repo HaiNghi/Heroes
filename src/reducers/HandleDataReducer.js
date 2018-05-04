@@ -1,22 +1,23 @@
-import { 
-    GET_CUSTOMER_NAME,
-    GET_CUSTOMER_PHONE,
-    BOOK_PACKAGE,
-    GET_DISTANCE_MATRIX,
-    GET_PRICE,
-    DISABLE_PRICE,
-    GET_NORMAL_PACKAGE,
-    GET_OPTIONAL_PACKAGE,
-    LOADING,
-    UNLOAD,
-    VERIFY_CODE_SUCCESS,
-    VERIFY_CODE_FAIL,
-    DISABLE_MODAL,
-    GET_HISTORY_LIST,
-    GET_HISTORY_DETAIL,
-    RATE_RATING,
-    CANCEL_TRIP
-} from '../actions/types';
+// import { 
+//     GET_CUSTOMER_NAME,
+//     GET_CUSTOMER_PHONE,
+//     BOOK_PACKAGE,
+//     GET_DISTANCE_MATRIX,
+//     GET_PRICE,
+//     DISABLE_PRICE,
+//     GET_NORMAL_PACKAGE,
+//     GET_OPTIONAL_PACKAGE,
+//     LOADING,
+//     UNLOAD,
+//     VERIFY_CODE_SUCCESS,
+//     VERIFY_CODE_FAIL,
+//     DISABLE_MODAL,
+//     GET_HISTORY_LIST,
+//     GET_HISTORY_DETAIL,
+//     RATE_RATING,
+//     CANCEL_TRIP
+// } from '../actions/types';
+import * as Types from '../actions/types';
 
 const INITIAL_STATE = { 
     customerName: '',
@@ -40,7 +41,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case GET_DISTANCE_MATRIX: {
+        case Types.GET_DISTANCE_MATRIX: {
             return { ...state, 
                     customerName: '',
                     customerPhone: '',
@@ -49,78 +50,82 @@ export default (state = INITIAL_STATE, action) => {
                     
             };
         }
-        case GET_CUSTOMER_NAME:
+        case Types.GET_CUSTOMER_NAME:
             return { ...state, 
                     customerName: action.payload 
             };
-        case GET_CUSTOMER_PHONE:
+        case Types.GET_CUSTOMER_PHONE:
             return { ...state, 
                     customerPhone: action.payload 
             };
-        case BOOK_PACKAGE: 
+        case Types.BOOK_PACKAGE: 
             return { ...state,
                     success: !state.success,
             };
-        case GET_PRICE: 
+        case Types.GET_PRICE: 
             return { ...state,
                     showPrice: true,
                     price: action.payload,
             };
-        case DISABLE_PRICE:
+        case Types.DISABLE_PRICE:
             return { ...state,
                     showPrice: false
             };
-        case GET_NORMAL_PACKAGE:
+        case Types.GET_NORMAL_PACKAGE:
             return { ...state,
                     normalPackageList: action.payload
             };
-        case GET_OPTIONAL_PACKAGE:
+        case Types.GET_OPTIONAL_PACKAGE:
             return { ...state,
                     optionalPackageList: action.payload
             };
-        case LOADING: 
+        case Types.LOADING: 
             console.log(state.showSpinner);
             return { ...state,
                     showSpinner: !state.showSpinner,
             };
-        case UNLOAD: {
+        case Types.UNLOAD: {
             return { ...state,
                 showSpinner: false
             };
         }
-        case DISABLE_MODAL: 
+        case Types.DISABLE_MODAL: 
             return { ...state,
                     verifySuccess: false,
                     verifyFail: false
             };
-        case VERIFY_CODE_SUCCESS:
+        case Types.VERIFY_CODE_SUCCESS:
             return { ...state,
                     verifySuccess: true,
                     message: action.payload
             };
-        case VERIFY_CODE_FAIL:
+        case Types.VERIFY_CODE_FAIL:
             return { ...state,
                     verifyFail: true,
                     message: action.payload
             };
-        case GET_HISTORY_LIST: 
+        case Types.GET_HISTORY_LIST: 
             return { ...state,
                     historyList: action.payload
             };
-        case GET_HISTORY_DETAIL: 
+        case Types.GET_HISTORY_DETAIL: 
             return { ...state,
                     historyDetail: action.payload,
                     ratingSuccess: false,
                     cancelTrip: false
             };
-        case RATE_RATING: 
+        case Types.RATE_RATING: 
             return { ...state,
                 ratingSuccess: !state.ratingSuccess
             };
-        case CANCEL_TRIP:
+        case Types.CANCEL_TRIP:
             return { ...state,
                 cancelingTripSuccess: true,
                 message: action.payload
+            };
+        case Types.RESET_CANCEL_TRIP_SUCCESS:
+            return { ...state,
+                cancelingTripSuccess: false
             };
         default:
             return state;

@@ -98,10 +98,11 @@ export default class PackageRegister extends Component {
             }
         }
     }
+    //show alert of validation
     validateField(text) {
         Alert.alert(
-            null,
             `${text}`,
+            null,
             [{ text: 'OK', onPress: () => console.log('OK Pressed'), style: 'cancel' },
             ],
             { cancelable: false }
@@ -137,13 +138,12 @@ export default class PackageRegister extends Component {
                 );
             }
         } 
-            // this.setState({ modalWarningShow: true });
         if (customerName === '') {
             this.validateField('Please input receiver\'s name');
         } else {
             (customerPhone === '') ?
                 this.validateField('Please input receiver\'s phone number')
-            : (((customerPhone.length < 10)) ? this.validateField('Invalid phone number!'): null);
+            : (((customerPhone.length < 10)) ? this.validateField('Invalid phone number!') : null);
             }
         }
     //check validation for name
@@ -157,7 +157,9 @@ export default class PackageRegister extends Component {
     // navigate to home screen
     navigateToScreen = () => {
         this.props.onDecline();
-        this.props.navigation.navigate('Home');
+        // this.props.navigation.navigate('Home');
+        this.props.navigation.state.params.deleteInput();
+        this.props.navigation.goBack(null);
     }
     //create the array [1,...49]
     renderArray = (start, end) => {
@@ -314,31 +316,25 @@ export default class PackageRegister extends Component {
                             </View>
                         </View> 
                 }
-                {/*                 
-                <View style={{ bottom: 1, flex: 1, alignItems: 'center', position: 'relative', marginTop: 30 }}>
-                    <SubmitButton onPress={() => this.getPrice()}>
-                        GET PRICE
-                    </SubmitButton>
-                </View> */}
+                
+                <Modal isVisible={this.props.showSpinner}>
+                    <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                        <Spinner />
+                    </View>
+                </Modal> 
 
-                    <Modal isVisible={this.props.showSpinner}>
-                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-                            <Spinner />
-                        </View>
-                    </Modal> 
-
-                    <Modal isVisible={this.props.success}>
-                        <View style={styles.innerContainer}>
-                            <Image 
-                                source={require('./image/checked.png')}
-                                style={styles.imageStyle}
-                            />
-                            <Text style={styles.textStyle}>Book sucessfully! Please wait for shipper after few minutes!</Text>
-                            <SubmitButton onPress={() => this.navigateToScreen()}>
-                                DISMISS
-                            </SubmitButton> 
-                        </View>
-                    </Modal>
+                <Modal isVisible={this.props.success}>
+                    <View style={styles.innerContainer}>
+                        <Image 
+                            source={require('./image/checked.png')}
+                            style={styles.imageStyle}
+                        />
+                        <Text style={styles.textStyle}>Book sucessfully! Please wait for shipper after few minutes!</Text>
+                        <SubmitButton onPress={() => this.navigateToScreen()}>
+                            DISMISS
+                        </SubmitButton> 
+                    </View>
+                </Modal>
 
                 <Modal isVisible={this.state.modalWarningShow} >
                     <View style={styles.innerContainer}>

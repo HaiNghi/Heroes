@@ -1,19 +1,8 @@
 import { connect } from 'react-redux';
 
 import PackageRegister from '../components/PackageRegister';
-import { doBookPackage, doGetPrice, doGetNormalPackage, doGetOptionalPackage } from '../api/api';
-import {
-    getDistanceMatrix,
-    getCustomerName,
-    getCustomerPhone,
-    bookPackage,
-    getPrice,
-    disablePrice,
-    getNormalPackage,
-    getOptionalPackage,
-    loading,
-    unload
-} from '../actions';
+import * as Actions from '../actions';
+import * as API from '../api/api';
 
 const mapStateToProps = (state) => ({
     distanceMatrix: state.package.distanceMatrix,
@@ -30,40 +19,40 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     getDistanceMatrix: (region, nextRegion) => {
-        dispatch(getDistanceMatrix(region, nextRegion));
+        dispatch(Actions.getDistanceMatrix(region, nextRegion));
     },
     getCustomerName: (text) => {
-       dispatch(getCustomerName(text));
+       dispatch(Actions.getCustomerName(text));
     },
     getCustomerPhone: (text) => {
-        dispatch(getCustomerPhone(text));
+        dispatch(Actions.getCustomerPhone(text));
     },
     getPrice: (height, width, weight, length, distanceMatrix, duration, checkTypeOfPackage) => {
-        doGetPrice(dispatch, getPrice, height, width, weight, length, distanceMatrix, duration, checkTypeOfPackage);
+        API.doGetPrice(dispatch, Actions.getPrice, height, width, weight, length, distanceMatrix, duration, checkTypeOfPackage);
     },
     bookPackage: (weight, customerName, customerPhone, 
                     pickUpCoordinate, destinationCoordinate,
                     distanceMatrix, duration,
                     height, width, length, price, checkTypeOfPackage, pickUpLocationAddress, dropOffLocationAddress) => {
-        doBookPackage(dispatch, bookPackage, unload, weight, customerName, customerPhone, 
+        API.doBookPackage(dispatch, Actions.bookPackage, Actions.unload, weight, customerName, customerPhone, 
                         pickUpCoordinate, destinationCoordinate,
                         distanceMatrix, duration,
                         height, width, length, price, checkTypeOfPackage, pickUpLocationAddress, dropOffLocationAddress);
     },
     onDecline: () => {
-        dispatch(bookPackage());
+        dispatch(Actions.bookPackage());
     },
     disablePrice: () => {
-        dispatch(disablePrice());
+        dispatch(Actions.disablePrice());
     },
     getNormalPackage: () => {
-        doGetNormalPackage(dispatch, getNormalPackage);
+        API.doGetNormalPackage(dispatch, Actions.getNormalPackage);
     },
     getOptionalPackage: () => {
-        doGetOptionalPackage(dispatch, getOptionalPackage);
+        API.doGetOptionalPackage(dispatch, Actions.getOptionalPackage);
     },
     loading: () => {
-        dispatch(loading());
+        dispatch(Actions.loading());
     }
 
 });
