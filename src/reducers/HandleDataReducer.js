@@ -1,22 +1,3 @@
-// import { 
-//     GET_CUSTOMER_NAME,
-//     GET_CUSTOMER_PHONE,
-//     BOOK_PACKAGE,
-//     GET_DISTANCE_MATRIX,
-//     GET_PRICE,
-//     DISABLE_PRICE,
-//     GET_NORMAL_PACKAGE,
-//     GET_OPTIONAL_PACKAGE,
-//     LOADING,
-//     UNLOAD,
-//     VERIFY_CODE_SUCCESS,
-//     VERIFY_CODE_FAIL,
-//     DISABLE_MODAL,
-//     GET_HISTORY_LIST,
-//     GET_HISTORY_DETAIL,
-//     RATE_RATING,
-//     CANCEL_TRIP
-// } from '../actions/types';
 import * as Types from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -36,7 +17,8 @@ const INITIAL_STATE = {
     historyList: [],
     historyDetail: {},
     ratingSuccess: false,
-    cancelingTripSuccess: false
+    cancelingTripSuccess: false,
+    resendRequestSuccess: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -80,7 +62,6 @@ export default (state = INITIAL_STATE, action) => {
                     optionalPackageList: action.payload
             };
         case Types.LOADING: 
-            console.log(state.showSpinner);
             return { ...state,
                     showSpinner: !state.showSpinner,
             };
@@ -126,6 +107,10 @@ export default (state = INITIAL_STATE, action) => {
         case Types.RESET_CANCEL_TRIP_SUCCESS:
             return { ...state,
                 cancelingTripSuccess: false
+            };
+        case Types.RESEND_REQUEST:
+            return { ...state,
+                resendRequestSuccess: !state.resendRequestSuccess
             };
         default:
             return state;

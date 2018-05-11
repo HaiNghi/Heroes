@@ -225,3 +225,9 @@ export const deleteInput = () => {
     };
 };
 
+export const resendPackageRequest = () => {
+    return {
+        type: Types.RESEND_REQUEST
+    };
+};
+

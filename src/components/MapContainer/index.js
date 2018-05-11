@@ -25,7 +25,7 @@ class MapContainer extends Component {
             PushNotification.configure({
                 onNotification: (notification) => {
                     console.log(notification);
-                    this.props.navigation.navigate('HistoryItems', { id: notification.data.id });
+                    this.props.navigation.navigate('HistoryItems', { id: notification.data.id, fromNotification: true });
                 },
                 permissions: {
                     alert: true,
@@ -75,7 +75,7 @@ class MapContainer extends Component {
         navigateToScreen() {
             if (this.props.pickUp === '') this.customAlert('pick-up location'); 
             else if (this.props.dropOff === '') this.customAlert('drop-off location');
-             else if (this.props.pickUp === this.props.dropOff) this.customAlert(' input different pick-up and drop-off locations');
+             else if (this.props.pickUp === this.props.dropOff) this.customAlert('different pick-up and drop-off locations');
                 else {
                     this.props.navigation.navigate('PackageRegister', 
                     { pickUpLocationAddress: this.props.pickUp, 
@@ -101,7 +101,6 @@ class MapContainer extends Component {
             ref.on('child_added', (snapshot) => {
                     pickedPackage = snapshot.val();
                     if (pickedPackage.status === 2) {
-                        console.log(1);
                         PushNotification.localNotification({
                             title: `Your package: ${pickedPackage.id} has been picked up! `,
                             message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
@@ -110,17 +109,14 @@ class MapContainer extends Component {
                             userInfo: { id: `${pickedPackage.id}` }
                         });
                         ref.child(`${pickedPackage.id}`).remove();
-                        console.log(2);
                     } else {
-                        console.log(3);
                         PushNotification.localNotification({
                             title: `Your package: ${pickedPackage.id} has been delivered successfully! `,
-                            message: `By shipper ID: ${pickedPackage.shipper_id} \nDestination: ${pickedPackage.destination_address}`,
+                            message: `Destination: ${pickedPackage.destination_address}`,
                             playSound: true,
                             soundName: 'default',
                             userInfo: { id: `${pickedPackage.id}` }
                         });
-                        console.log(4);
                         ref.child(`${pickedPackage.id}`).remove();
                     }
             });

@@ -18,16 +18,15 @@ const MainNavigator = DrawerNavigator({
     Home: { 
         screen: Home
     },
-    
-    Notifications: { 
-        screen: Notifications
-    },  
-    HelpCentre: { 
-        screen: HelpCentre
-    },
-    HelpCentreItem: { 
-        screen: HelpCentreItem
-    },
+    // Notifications: { 
+    //     screen: Notifications
+    // },  
+    // HelpCentre: { 
+    //     screen: HelpCentre
+    // },
+    // HelpCentreItem: { 
+    //     screen: HelpCentreItem
+    // },
     Profile: {
         screen: Profile,
     }
@@ -59,6 +58,15 @@ const AppNavigator = StackNavigator({
     },
     Register: { 
         screen: Register 
+    },
+    Notifications: { 
+        screen: Notifications
+    },  
+    HelpCentre: { 
+        screen: HelpCentre
+    },
+    HelpCentreItem: { 
+        screen: HelpCentreItem
     },
   
 }, 

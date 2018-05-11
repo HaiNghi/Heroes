@@ -31,3 +31,4 @@ export const LOG_OUT = 'LOG_OUT';
 export const CANCEL_TRIP = 'CANCEL_TRIP';
 export const RESET_CANCEL_TRIP_SUCCESS = 'RESET_CANCEL_TRIP_SUCCESS';
 export const DELETE_INPUT = 'DELETE_INPUT';
+export const RESEND_REQUEST = 'RESEND_REQUEST';

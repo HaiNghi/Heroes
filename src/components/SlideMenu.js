@@ -57,9 +57,7 @@ class SlideMenu extends Component {
     }
 
     navigatToScreen(route) {
-        if (route === 'Histories') {
-            this.props.navigation.navigate('DrawerClose');
-        }
+        this.props.navigation.navigate('DrawerClose');
         this.props.navigation.navigate(route);
     }
     //sign out function when clicking 'OK' button in sign out modal
