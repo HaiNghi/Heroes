@@ -7,14 +7,20 @@ class Histories extends Component {
     componentDidMount() {
         this.props.getHistoryList();
     }
+
+    componentWillUnmount() {
+        this.refreshList();
+    }
     //navigate to the other screen
     navigateToScreen = (historyId) => {
-        this.props.navigation.navigate('HistoryItems', { id: historyId, refreshList: this.refreshList.bind(this) });
+        this.props.navigation.navigate('HistoryItems', { id: historyId, refreshList: this.refreshList.bind(this), fromNotification: false });
     }
     //refresh history list
     refreshList = () => {
         this.props.getHistoryList();
     }
+
+    
     render() {
         return (
             <Container>

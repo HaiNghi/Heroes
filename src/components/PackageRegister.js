@@ -82,20 +82,20 @@ export default class PackageRegister extends Component {
     getPrice = () => {
         const { height, weight, width, length, typeOfPackage } = this.state;
         const { distanceMatrix, duration } = this.props;
-        if (height !== '' && weight !== '' && width !== '' && length !== '') {
-            this.setState({ checkTypeOfPackage: 'optional' }, function () {
-                this.props.getPrice(height, width, weight, length, distanceMatrix, duration, this.state.checkTypeOfPackage);
-            });
-            this.setState({ showPrice: true });
-        } else {
-            if (typeOfPackage !== 0) {
-                this.setState({ checkTypeOfPackage: 'normal' }, function () {
-                    this.props.getPrice(height, width, typeOfPackage, length, distanceMatrix, duration, this.state.checkTypeOfPackage);
+        if (typeOfPackage === 0) {
+            this.setState({ showPrice: false });
+            if (height !== '' && weight !== '' && width !== '' && length !== '') {
+                this.setState({ checkTypeOfPackage: 'optional' }, function () {
+                    this.props.getPrice(height, width, weight, length, distanceMatrix, duration, this.state.checkTypeOfPackage);
                 });
                 this.setState({ showPrice: true });
-            } else {
-                this.setState({ showPrice: false });
             }
+        } else {
+            this.setState({ showPrice: false, height: '', weight: '', width: '', length: '' });
+            this.setState({ checkTypeOfPackage: 'normal' }, function () {
+                this.props.getPrice(height, width, typeOfPackage, length, distanceMatrix, duration, this.state.checkTypeOfPackage);
+            });
+            this.setState({ showPrice: true });
         }
     }
     //show alert of validation
@@ -311,7 +311,7 @@ export default class PackageRegister extends Component {
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <Button transparent onPress={() => this.bookPackage()}>
-                                    <Text style={styles.textStyle}>BOOK</Text>
+                                    <Text style={[styles.textStyle, { color: '#fff', }]}>BOOK</Text>
                                 </Button>
                             </View>
                         </View> 

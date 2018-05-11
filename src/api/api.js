@@ -1,13 +1,8 @@
 import { AsyncStorage, Alert } from 'react-native';
 import axios from 'axios';
 
-// const baseURL = 'http://127.0.0.1:8000';
-// const baseURL = 'http://192.168.21.181:8000';
-// const baseURL = 'http://ec2-34-231-21-217.compute-1.amazonaws.com:8000';
 const baseURL = 'http://ec2-54-198-63-122.compute-1.amazonaws.com';
 let user = [];
-
-// const baseURL = 'http://ec2-34-231-21-217.compute-1.amazonaws.com:8000';
 export const processLogin = (dispatch, loginSuccess, loginFail, loadSpinner, email, password) => {
         axios.post(`${baseURL}/api/login`, {
                 email,
@@ -129,7 +124,6 @@ export const doGetPrice = (dispatch, getPrice, height, width, weight,
                 headers: { Authorization: `Bearer ${user.token}` } }
         )
         .then((response) => {
-                console.log(response);
                 dispatch(getPrice(response.data.price.toFixed(0)));
         })
         .catch((error) => {
@@ -142,7 +136,6 @@ export const doGetNormalPackage = (dispatch, getNormalPackage) => {
                 headers: { Authorization: `Bearer ${user.token}` } 
         })
         .then((response) => {
-                console.log(response.data.data);
                 dispatch(getNormalPackage(response.data.data));
         })
         .catch((error) => {
@@ -155,7 +148,6 @@ export const doGetOptionalPackage = (dispatch, getOptionalPackage) => {
                 headers: { Authorization: `Bearer ${user.token}` } 
         })
         .then((response) => {
-                console.log(response.data.data);
                 dispatch(getOptionalPackage(response.data.data));
         })
         .catch((error) => {
@@ -167,7 +159,6 @@ export const processVerifyingOTPCode = (dispatch, verifyCodeResult, code, packag
         { otp_code: code }, 
         { headers: { Authorization: `Bearer ${user.token}` }
         }).then((response) => {
-                console.log(response);
                 dispatch(verifyCodeResult(response.data.message, 'success'));
         }).catch((error) => {
                 dispatch(verifyCodeResult(error.response.data.message, 'fail'));
@@ -180,7 +171,6 @@ export const processGettingHistoryList = (dispatch, getHistoryList) => {
                 headers: { Authorization: `Bearer ${user.token}` } 
         })
         .then((response) => {
-                console.log(response.data.data);
                 dispatch(getHistoryList(response.data.data));
         })
         .catch((error) => {
@@ -221,7 +211,6 @@ export const processRating = (dispatch, rateShipper, historyId, shipperRating, c
                 params, { headers: { Authorization: `Bearer ${user.token}` } }
         )
         .then((response) => {
-                console.log(response);
                 dispatch(rateShipper());
         })
         .catch((error) => {
@@ -234,7 +223,6 @@ export const processLogOut = (dispatch, logOut) => {
                 headers: { Authorization: `Bearer ${user.token}` }
         })
         .then((response) => {
-                console.log(response.data);
                 dispatch(logOut());
         })
         .catch((error) => {
@@ -247,10 +235,21 @@ export const processCancelingTrip = (dispatch, cancelTrip, id) => {
                 { headers: { Authorization: `Bearer ${user.token}` }
         })
         .then((response) => {
-                console.log(response.data);
                 dispatch(cancelTrip(response.data.message));
         })
         .catch((error) => {
                 Alert.alert(error.message);
         });   
+};
+
+export const processResendingRequest = (dispatch, resendPackageRequest, packageId) => {
+        axios.post(`${baseURL}/api/requestShip/defaultShipper`, 
+                { request_ship_id: packageId }, { headers: { Authorization: `Bearer ${user.token}` } }
+        )
+        .then((response) => {
+                dispatch(resendPackageRequest());
+        })
+        .catch((error) => {
+                Alert.alert(error.message);
+        });
 };

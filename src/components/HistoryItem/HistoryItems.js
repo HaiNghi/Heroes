@@ -24,7 +24,8 @@ class HistoryItems extends Component {
             showSuccessModal: false,
             showCancelTripModal: false,
             showCancelTripSuccessModal: false,
-            showResendRequestModal: false
+            showResendRequestModal: false,
+            resentRequest: false
         };
     }
     componentDidMount() {
@@ -32,6 +33,15 @@ class HistoryItems extends Component {
     }
     componentWillReceiveProps(nextProps) {
         let sizeDetail = null;
+        const currentDate = new Date();
+        if (nextProps.historyDetail != null) {
+            const created_at = new Date(nextProps.historyDetail.created_at);
+            console.log(currentDate.getTime(), created_at.getTime());
+            if (created_at.getTime() + (5 * 60) <= currentDate.getTime()) {
+                this.setState({ resentRequest: true });
+            }
+        }
+        
         //get size of package if it is not empty.
         if (nextProps.historyDetail.size !== null) {
             sizeDetail = JSON.parse(nextProps.historyDetail.size);
@@ -46,12 +56,19 @@ class HistoryItems extends Component {
                 this.setState({ showSuccessModal: true });
         }
 
-        console.log(this.props.cancelingTripSuccess);
         //show success modal if canceling trip has done.
         if (nextProps.cancelingTripSuccess !== this.props.cancelingTripSuccess && nextProps.cancelingTripSuccess) {
             this.setState({ showCancelTripSuccessModal: true });
             this.props.resetCanCelingTripSuccess();
         }
+
+        if (nextProps.resendRequestSuccess !== this.props.resendRequestSuccess && nextProps.resendRequestSuccess === false) {
+            this.props.navigation.goBack(null);
+        }
+    }
+
+    componentWillUnmount() {
+        this.props.getHistoryList();
     }
    // evaluate shipper's quality, if rating <4 , show comment field.
     onStarRatingPress = (rating) => {
@@ -89,6 +106,11 @@ class HistoryItems extends Component {
             this.props.navigation.goBack();
         }
     }
+
+    resendRequest = () => {
+        this.props.resendRequest(this.props.navigation.state.params.id);
+        this.setState({ showResendRequestModal: false });
+    }
     render() {
         const { historyDetail } = this.props;
         return (
@@ -98,6 +120,7 @@ class HistoryItems extends Component {
                     navigation={this.props.navigation} 
                     left
                     previousPage='Histories'
+                    refresh={this.props.navigation.state.params.refreshList}
                 />
                 <Content>
                     <Card>
@@ -162,7 +185,7 @@ class HistoryItems extends Component {
                             </Left>
                         </CardItem>
                         {
-                            (historyDetail.status === 1) &&
+                            (historyDetail.status === 1 && this.state.resentRequest) &&
                             <Button success full onPress={() => this.setState({ showResendRequestModal: true })}>
                                 <Text>Resend request</Text>
                             </Button>
@@ -197,13 +220,13 @@ class HistoryItems extends Component {
 
                         }
                         { 
-                            (this.props.historyDetail.status === 2 || this.props.historyDetail.status === 1) &&
+                            (historyDetail.status === 2 || historyDetail.status === 1) &&
                             <Button full style={{ marginTop: 15, marginRight: 2, marginLeft: 2, backgroundColor: '#ff5a3e' }} onPress={() => this.setState({ showCancelTripModal: true })}><Text>Cancel Order</Text></Button>
                         }
                         
                         
                         {
-                            (this.props.historyDetail.status === 4 && this.props.historyDetail.shipper_rating !== null) &&
+                            (historyDetail.status === 4 && historyDetail.shipper_rating !== null) &&
                             <View style={{ flex: 2 / 5 }}>
                                 <Text style={[styles.labelStyle, { textAlign: 'center', margin: 10, fontSize: 20 }]}>You rated</Text>
                                 <View style={{ alignSelf: 'center' }}>
@@ -287,7 +310,6 @@ class HistoryItems extends Component {
                                         full style={{ backgroundColor: 'green' }}
                                         onPress={() => { 
                                                         this.setState({ showCancelTripSuccessModal: false }, function () {
-                                                            this.props.navigation.state.params.refreshList();
                                                             this.props.navigation.goBack(null); 
                                                         }); 
                                                         }
@@ -307,10 +329,36 @@ class HistoryItems extends Component {
                         <Card>
                             <CardItem>
                                 <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                    <Text style={[styles.labelStyle, { textAlign: 'center', margin: 10 }]}>Your request has been sent to our system. Please wait few minutes!</Text>
+                                    <Text style={[styles.labelStyle, { textAlign: 'center', margin: 10 }]}>Are you sure you want our system to assign a shipper for you? </Text>
+                                    <Text note style={{ marginBottom: 10 }}>The fee will be added more <Text note style={{ fontWeight: 'bold', color: '#000' }}>{(historyDetail.price * 20) / 100}</Text> VND </Text>
+                                    <Button 
+                                        full success
+                                        onPress={() => this.resendRequest()}
+                                    >
+                                        <Text>OK</Text>
+                                    </Button>
+                                    <Button 
+                                        full light
+                                        onPress={() => this.setState({ showResendRequestModal: false })}
+                                    >
+                                        <Text>DISMISS</Text>
+                                    </Button>
+                                </View>
+                                
+                            </CardItem>
+                        </Card>
+                    </View>
+                </Modal>
+
+                <Modal isVisible={this.props.resendRequestSuccess}>
+                    <View style={{ flex: 1 / 5, justifyContent: 'center', alignItems: 'center' }}>
+                        <Card>
+                            <CardItem>
+                                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                    <Text style={[styles.labelStyle, { textAlign: 'center', margin: 10 }]}>You request has been sent! Please wait for few minutes!</Text>
                                     <Button 
                                         full style={{ backgroundColor: 'green' }}
-                                        onPress={() => this.setState({ showResendRequestModal: false })}
+                                        onPress={() => this.props.resetResendingRequestSuccess()}
                                     >
                                         <Text>DISMISS</Text>
                                     </Button>

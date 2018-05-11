@@ -24,7 +24,7 @@ const LONGTITUDEDELTA = ASPECT_RATION * LATITUDEDELTA;
 
 
 export default (state = INITIAL_STATE, action) => {
-    console.log(action);
+    // console.log(action);
     switch (action.type) {
         case Types.GET_CURRENT_LOCATION: {
             const LATITUDE = action.payload.coords.latitude;
@@ -69,7 +69,7 @@ export default (state = INITIAL_STATE, action) => {
                     dropOff: action.payload,
             };
         case Types.TOOGLE_SEARCH_RESULT: {
-            console.log(state.resultTypes);
+            // console.log(state.resultTypes);
             if (action.payload === 'pickUp') {
                 return { ...state, 
                         resultTypes: { pickUp: true, dropOff: false }, 
@@ -86,7 +86,7 @@ export default (state = INITIAL_STATE, action) => {
                     predictions: action.payload 
             };
         case Types.GET_SELECTED_ADDRESS: {
-            console.log(state.resultTypes.pickUp);
+            // console.log(state.resultTypes.pickUp);
             if (state.resultTypes.pickUp) {
                 return { ...state,
                         resultTypes: { pickUp: false, dropOff: false }, 
@@ -118,7 +118,7 @@ export default (state = INITIAL_STATE, action) => {
             }
         }
         case Types.DELETE_RESULT_ADDRESS: {
-            console.log(state.pickUpRegion);
+            // console.log(state.pickUpRegion);
             if (action.payload === 'pickUp') {
                 return { ...state, 
                         pickUp: '',
