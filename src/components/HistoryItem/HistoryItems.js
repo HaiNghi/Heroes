@@ -35,8 +35,7 @@ class HistoryItems extends Component {
         let sizeDetail = null;
         const currentDate = new Date();
         if (nextProps.historyDetail != null) {
-            const created_at = new Date(nextProps.historyDetail.created_at);
-            console.log(currentDate.getTime(), created_at.getTime());
+            const created_at = new Date(nextProps.historyDetail.created_at.replace(' ', 'T'));
             if (created_at.getTime() + (5 * 60) <= currentDate.getTime()) {
                 this.setState({ resentRequest: true });
             }
